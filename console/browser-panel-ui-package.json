@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "dangdangBrowserPanels/v1",
+  "adapterVersion": "0.3.1",
+  "package": "@dangdang/ui",
+  "packageVersion": "0.2.5",
+  "sourceArchive": "vendor/dangdang-ui-0.2.5.tgz",
+  "sourceSha256": "6AA0BBDD8AE7AADAAF29AAC57A5001C2D0A625105B6C1B2BB5621591D3DB15AA",
+  "sourceModules": [
+    "package/src/styles/tokens.css",
+    "package/src/styles/buttons.css",
+    "package/src/styles/forms.css"
+  ],
+  "layoutController": "frontend/dangdang-panel-layout.js",
+  "layoutStyle": "frontend/dangdang-panel-layout.css",
+  "layoutFeatureFlag": "ENABLE_DANGDANG_PANEL_LAYOUT_V1",
+  "layoutStorageKey": "amazon-selection-console:dangdang-layout:v1",
+  "bridgeFeatureFlag": "ENABLE_DANGDANG_BRIDGE_PANEL_V1",
+  "adapterStyle": "frontend/dangdang-browser-panels-adapter.css",
+  "template": "frontend/dangdang-browser-panels.template.user.js",
+  "output": "static/dangdang-browser-panels.user.js",
+  "collectorOnlyAdapterStyle": "frontend/dangdang-collector-panel-adapter.css",
+  "collectorOnlyTemplate": "frontend/dangdang-collector-panel.template.user.js",
+  "collectorOnlyOutput": "static/dangdang-collector-panel.user.js",
+  "collectorOnlyFeatureFlag": "ENABLE_DANGDANG_COLLECTOR_PANEL_V1",
+  "collectorOnlyInstallUrl": "http://127.0.0.1:8788/static/dangdang-collector-panel.user.js",
+  "rightOnlyAdapterStyle": "frontend/dangdang-right-panels-adapter.css",
+  "rightOnlyTemplate": "frontend/dangdang-right-panels.template.user.js",
+  "rightOnlyOutput": "static/dangdang-right-panels.user.js",
+  "rightOnlyFeatureFlag": "ENABLE_DANGDANG_RIGHT_PANELS_V1",
+  "rightOnlyLayoutFeatureFlag": "ENABLE_DANGDANG_RIGHT_PANEL_LAYOUT_V1",
+  "rightOnlyLayoutStorageKey": "amazon-selection-console:dangdang-right-layout:v1",
+  "rightOnlyInstallUrl": "http://127.0.0.1:8788/static/dangdang-right-panels.user.js",
+  "featureFlag": "ENABLE_DANGDANG_BROWSER_PANELS_V1",
+  "installUrl": "http://127.0.0.1:8788/static/dangdang-browser-panels.user.js",
+  "targets": [
+    {
+      "panelId": "ss-collector-panel",
+      "engine": "Collector",
+      "engineVersion": "0.4.6.4"
+    },
+    {
+      "panelId": "ss-v3-panel",
+      "engine": "Runner",
+      "engineVersion": "0.3.8.13"
+    },
+    {
+      "panelId": "asc-v2-panel",
+      "engine": "Bridge",
+      "engineVersion": "2.1.3",
+      "scriptVersion": "2.1.6",
+      "headingText": "Selection Console Bridge 2.1.3 / script 2.1.6"
+    }
+  ],
+  "preserves": [
+    "all existing element ids and native controls",
+    "Collector, Runner, and Selection Console Bridge version strings",
+    "Browser Bridge document-level selectors and pairing contract",
+    "event listeners, storage keys, telemetry, queues, results, and strict gates"
+  ],
+  "rollback": [
+    "disable DangDang Browser Panels in ScriptCat and refresh Amazon",
+    "or set ENABLE_DANGDANG_BROWSER_PANELS_V1 or ENABLE_DANGDANG_BRIDGE_PANEL_V1 to false, rebuild, reinstall, and refresh"
+  ]
+}

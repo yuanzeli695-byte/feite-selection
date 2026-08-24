@@ -1,0 +1,26 @@
+{
+  "package": "@dangdang/ui",
+  "version": "0.2.5",
+  "sourceArchive": "vendor/dangdang-ui-0.2.5.tgz",
+  "sourceSha256": "6AA0BBDD8AE7AADAAF29AAC57A5001C2D0A625105B6C1B2BB5621591D3DB15AA",
+  "styleAsset": "static/vendor/dangdang-ui-0.2.5.css",
+  "styleSha256": "4942178297ED98EAA2BFC281EE90306969A23B7090AA3653D687F5F96C09E21D",
+  "integration": "native-class-adapter-v1.1.0",
+  "runtime": "vanilla-html-js",
+  "legacyComponentRuntime": "static/vendor/fluent-components.js (not loaded; rollback only)",
+  "featureFlag": {
+    "attribute": "data-ui-package",
+    "enabledValue": "dangdang-ui-0.2.5",
+    "rollbackValue": "legacy"
+  },
+  "preserves": [
+    "existing data-action handlers",
+    "strict candidate and Runner gates",
+    "JSON handoff draft persistence",
+    "browser bridge protocol"
+  ],
+  "rollback": [
+    "change body[data-ui-package] to legacy in static/index.html",
+    "remove the DangDang stylesheet and adapter links after validation"
+  ]
+}

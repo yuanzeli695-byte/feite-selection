@@ -1,0 +1,19 @@
+{
+  "name": "amazon-selection-automation-console",
+  "private": true,
+  "scripts": {
+    "build:ui": "node frontend/build-dangdang-ui.mjs",
+    "build:browser-panel-ui": "node frontend/build-dangdang-browser-panels.mjs",
+    "build:fluent-rollback": "esbuild frontend/fluent-entry.js --bundle --format=esm --minify --outfile=static/vendor/fluent-components.js",
+    "test:handoff-ui": "node --test test_json_handoff_draft.mjs",
+    "test:browser-panel-ui": "npm run build:browser-panel-ui && node --test test_dangdang_browser_panels.mjs",
+    "test:ui": "npm run build:browser-panel-ui && node --test test_ui_package.mjs test_dangdang_browser_panels.mjs test_json_handoff_draft.mjs test_category_repository_ui.mjs"
+  },
+  "devDependencies": {
+    "@fluentui/tokens": "1.0.0-alpha.23",
+    "@fluentui/web-components": "3.0.3",
+    "@microsoft/fast-element": "3.0.2",
+    "@microsoft/focusgroup-polyfill": "1.6.0",
+    "esbuild": "0.28.1"
+  }
+}
