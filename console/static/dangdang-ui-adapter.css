@@ -1,0 +1,294 @@
+/* Compatibility layer: keep the existing DOM/event contract and opt into DangDang tokens. */
+body[data-ui-package="dangdang-ui-0.2.5"] {
+  --app-theme-color: #2563eb;
+  --app-theme-contrast: #ffffff;
+  --app-theme-color-dark: #1d4ed8;
+  --dd-color-accent: #2563eb;
+  --dd-color-on-accent: #ffffff;
+  --dd-color-accent-dark: #1d4ed8;
+  --dd-color-on-accent-dark: #ffffff;
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --canvas: #f4f4f5;
+  --panel: #ffffff;
+  --soft: #f4f4f5;
+  --line: #d4d4d8;
+  --line-soft: #18181b1a;
+  --shadow: 0 16px 42px #18274b21;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .app-header {
+  background: var(--dd-surface-glass, #ffffffb8);
+  border-bottom-color: var(--dd-border-subtle, #18181b1a);
+  backdrop-filter: blur(var(--dd-glass-blur, 22px)) saturate(var(--dd-glass-saturation, 1.35));
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .header-actions .dd-badge {
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .app-shell {
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+  background: var(--dd-surface-canvas, #f4f4f5);
+  border-inline-color: var(--dd-border-subtle, #18181b1a);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .left-rail {
+  align-self: start;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  max-height: calc(100vh - 64px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  background: var(--dd-surface-raised, #ffffffeb);
+  border-right-color: var(--dd-border-subtle, #18181b1a);
+  scrollbar-color: #a1a1aa transparent;
+  scrollbar-width: thin;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-band,
+body[data-ui-package="dangdang-ui-0.2.5"] .run-band {
+  padding: 16px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-band {
+  border-bottom-color: var(--dd-border-subtle, #18181b1a);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-band-head,
+body[data-ui-package="dangdang-ui-0.2.5"] .run-band-head {
+  gap: 10px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-counts {
+  min-width: 148px;
+  border-color: var(--dd-border-subtle, #18181b1a);
+  border-radius: var(--dd-radius-md, 14px);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-counts > span {
+  min-height: 42px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-import {
+  margin-top: 12px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-import textarea {
+  min-height: 70px;
+  border-color: var(--dd-border-subtle, #18181b1a);
+  border-radius: var(--dd-radius-md, 14px);
+  background: var(--dd-control-background, #ffffffdb);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-table {
+  max-height: min(45vh, 430px);
+  margin-top: 12px;
+  overflow: auto;
+  scrollbar-color: #a1a1aa transparent;
+  scrollbar-width: thin;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-table-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-top: 6px;
+  background: var(--dd-surface-raised, #ffffffeb);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-table-head,
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-row {
+  grid-template-columns: minmax(0, 1fr) 68px 72px;
+  gap: 6px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-row {
+  min-height: 48px;
+  padding: 6px;
+  border-top-color: var(--dd-border-subtle, #18181b1a);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .pool-row .button.small {
+  min-width: 68px;
+  padding-inline: 5px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .run-band {
+  background: var(--dd-surface-raised, #ffffffeb);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .runs-list {
+  max-height: min(34vh, 320px);
+  margin-top: 10px;
+  gap: 5px;
+  overflow: auto;
+  scrollbar-color: #a1a1aa transparent;
+  scrollbar-width: thin;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .run-tab {
+  min-height: 56px;
+  padding: 8px 9px;
+  gap: 8px;
+  border-radius: var(--dd-radius-sm, 10px);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .run-tab.selected {
+  border-color: color-mix(in srgb, var(--dd-color-accent, #2563eb) 28%, var(--dd-border-subtle, #18181b1a));
+  background: var(--dd-surface-raised, #ffffffeb);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--dd-color-accent, #2563eb) 10%, transparent);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .workspace {
+  background: var(--dd-surface-canvas, #f4f4f5);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-tab,
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-panel,
+body[data-ui-package="dangdang-ui-0.2.5"] .event-band,
+body[data-ui-package="dangdang-ui-0.2.5"] .current-row,
+body[data-ui-package="dangdang-ui-0.2.5"] .handoff-state,
+body[data-ui-package="dangdang-ui-0.2.5"] .export-task-row {
+  border-radius: var(--dd-radius-md, 14px);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-tab,
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-panel,
+body[data-ui-package="dangdang-ui-0.2.5"] .event-band {
+  border-color: var(--dd-border-subtle, #18181b1a);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-panel {
+  box-shadow: var(--dd-shadow-raised, 0 16px 42px #18274b21);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .button {
+  min-height: 34px;
+  border-radius: var(--dd-radius-md, 14px);
+  border-color: var(--dd-border-subtle, #18181b1a);
+  box-shadow: inset 0 1px #ffffff47;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .button.primary {
+  border-color: var(--dd-color-accent, #2563eb);
+  background: var(--dd-color-accent, #2563eb);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--dd-color-accent, #2563eb) 20%, transparent);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .button.quiet {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge {
+  min-height: 20px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  font-size: 9px;
+  font-weight: 760;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge--neutral {
+  border-color: var(--dd-border-subtle);
+  background: var(--dd-surface-muted);
+  color: var(--dd-text-secondary);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge--success {
+  background: color-mix(in srgb, var(--dd-color-success) 12%, var(--dd-surface-raised));
+  color: var(--dd-color-success);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge--warning {
+  background: color-mix(in srgb, var(--dd-color-warning) 13%, var(--dd-surface-raised));
+  color: var(--dd-color-warning);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge--error {
+  background: color-mix(in srgb, var(--dd-color-error) 12%, var(--dd-surface-raised));
+  color: var(--dd-color-error);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .badge.dd-badge--info {
+  background: color-mix(in srgb, var(--dd-color-info) 12%, var(--dd-surface-raised));
+  color: var(--dd-color-info);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .dd-progress {
+  margin: 10px 0 16px;
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] input,
+body[data-ui-package="dangdang-ui-0.2.5"] select,
+body[data-ui-package="dangdang-ui-0.2.5"] dialog textarea,
+body[data-ui-package="dangdang-ui-0.2.5"] .queue-editor,
+body[data-ui-package="dangdang-ui-0.2.5"] .json-editor {
+  border-color: var(--dd-border-subtle, #18181b1a);
+  border-radius: var(--dd-radius-md, 14px);
+  background: var(--dd-control-background, #ffffffdb);
+}
+
+body[data-ui-package="dangdang-ui-0.2.5"] .stage-tab:focus-visible,
+body[data-ui-package="dangdang-ui-0.2.5"] input:focus,
+body[data-ui-package="dangdang-ui-0.2.5"] textarea:focus,
+body[data-ui-package="dangdang-ui-0.2.5"] select:focus {
+  outline-color: var(--dd-focus-ring, #2563eb61);
+}
+
+@media (max-width: 1120px) {
+  body[data-ui-package="dangdang-ui-0.2.5"] .app-shell {
+    grid-template-columns: minmax(270px, 296px) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  body[data-ui-package="dangdang-ui-0.2.5"] {
+    min-width: 0;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .app-shell {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .workspace {
+    order: -1;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .left-rail {
+    position: static;
+    width: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .pool-table,
+  body[data-ui-package="dangdang-ui-0.2.5"] .runs-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 540px) {
+  body[data-ui-package="dangdang-ui-0.2.5"] .header-actions .dd-badge {
+    max-width: 100%;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .stage-actions .dd-button,
+  body[data-ui-package="dangdang-ui-0.2.5"] .stage-actions .dd-anchor-button {
+    width: 100%;
+  }
+
+  body[data-ui-package="dangdang-ui-0.2.5"] .pool-table-head,
+  body[data-ui-package="dangdang-ui-0.2.5"] .pool-row {
+    grid-template-columns: minmax(0, 1fr) 62px 68px;
+  }
+}
