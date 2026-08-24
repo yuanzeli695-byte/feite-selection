@@ -1,0 +1,37 @@
+# Runtime state and local secrets
+console/data/
+console/.codex_work/
+console/node_modules/
+console/__pycache__/
+console/*.log
+pipeline/runs/
+pipeline/cache/
+pipeline/history/
+pipeline/.codex_work/
+pipeline/node_modules/
+pipeline/__pycache__/
+pipeline/**/__pycache__/
+pipeline/**/.pytest_cache/
+
+# Local exports and generated workbooks
+*.db
+*.sqlite
+*.sqlite3
+*.xlsx
+*.xlsm
+*.csv
+*.tsv
+*.zip
+*.7z
+*.bak
+
+# Credentials and machine-local configuration
+.env
+.env.*
+*.credential.xml
+*.pem
+*.key
+*.p12
+*.pfx
+*.cookie
+
