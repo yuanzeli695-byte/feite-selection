@@ -1,0 +1,60 @@
+/* Layout controls are scoped to roots that the adapter marks explicitly. */
+__DANGDANG_LAYOUT_ROOT__[data-dd-layout-enabled="true"] {
+  overflow: auto !important;
+  resize: none !important;
+  box-sizing: border-box !important;
+}
+
+__DANGDANG_LAYOUT_ROOT__[data-dd-layout-mode="free"] {
+  position: fixed !important;
+  top: var(--dd-layout-top) !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: var(--dd-layout-left) !important;
+  width: var(--dd-layout-width) !important;
+  height: var(--dd-layout-height) !important;
+  z-index: var(--dd-layout-z-index, 2147483646) !important;
+  max-width: var(--dd-layout-max-width) !important;
+  max-height: var(--dd-layout-max-height) !important;
+}
+
+__DANGDANG_LAYOUT_ROOT__[data-dd-layout-dragging="true"] {
+  user-select: none !important;
+}
+
+__DANGDANG_LAYOUT_ROOT__ > [data-dd-layout-drag-handle="true"] {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+__DANGDANG_LAYOUT_ROOT__ > [data-dd-layout-drag-handle="true"]:active,
+__DANGDANG_LAYOUT_ROOT__[data-dd-layout-dragging="true"] > [data-dd-layout-drag-handle="true"] {
+  cursor: grabbing;
+}
+
+__DANGDANG_LAYOUT_ROOT__ > [data-dd-layout-resize-handle="true"] {
+  position: absolute;
+  right: 8px;
+  bottom: 10px;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  z-index: 2;
+  cursor: nwse-resize;
+  touch-action: none;
+  user-select: none;
+  border: 1px solid color-mix(in srgb, var(--dd-text-secondary) 48%, transparent);
+  border-radius: 4px;
+  background:
+    linear-gradient(135deg, transparent 0 38%, color-mix(in srgb, var(--dd-text-secondary) 82%, transparent) 39% 46%, transparent 47% 58%, color-mix(in srgb, var(--dd-text-secondary) 82%, transparent) 59% 66%, transparent 67%),
+    color-mix(in srgb, var(--dd-surface-raised) 82%, transparent);
+  box-shadow: 0 1px 4px #0000002b;
+  opacity: 0.92;
+}
+
+__DANGDANG_LAYOUT_ROOT__[data-dd-layout-resizing="true"] > [data-dd-layout-resize-handle="true"] {
+  opacity: 1;
+  border-color: var(--dd-color-accent);
+  box-shadow: 0 0 0 2px var(--dd-focus-ring), 0 1px 4px #00000038;
+}

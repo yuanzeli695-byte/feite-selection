@@ -1,0 +1,257 @@
+/* Visual-only right-side adapter. Exact roots preserve Runner and Bridge contracts. */
+#ss-v3-panel.dd-browser-panel {
+  --app-theme-color: #0f766e;
+  --app-theme-contrast: #ffffff;
+  --app-theme-color-dark: #5eead4;
+  --app-theme-contrast-dark: #18181b;
+}
+
+#asc-v2-panel.dd-browser-panel {
+  --app-theme-color: #2563eb;
+  --app-theme-contrast: #ffffff;
+  --app-theme-color-dark: #93c5fd;
+  --app-theme-contrast-dark: #172554;
+}
+
+#ss-v3-panel.dd-browser-panel,
+#asc-v2-panel.dd-browser-panel {
+  max-width: calc(100vw - 24px) !important;
+  border: 1px solid var(--dd-border-subtle) !important;
+  border-top: 3px solid var(--dd-color-accent) !important;
+  border-radius: var(--dd-radius-md) !important;
+  background: var(--dd-surface-raised) !important;
+  color: var(--dd-text-primary) !important;
+  box-shadow: var(--dd-shadow-modal) !important;
+  font-family: Inter, "Segoe UI", Arial, sans-serif !important;
+  letter-spacing: 0 !important;
+  z-index: 2147483640 !important;
+  scrollbar-color: #a1a1aa transparent;
+  scrollbar-width: thin;
+}
+
+#ss-v3-panel.dd-browser-panel {
+  width: 430px !important;
+  max-height: calc(100vh - 24px) !important;
+  padding: 12px !important;
+}
+
+#ss-v3-panel.dd-browser-panel h3,
+#asc-v2-panel.dd-browser-panel > strong {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 9px !important;
+  color: var(--dd-text-primary) !important;
+  font-size: 14px !important;
+  font-weight: 780 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+}
+
+#ss-v3-panel.dd-browser-panel h3 #ss-v3-toggle {
+  margin: 0 0 0 auto !important;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-badge.dd-browser-panel__package-badge,
+#asc-v2-panel.dd-browser-panel .dd-badge.dd-browser-panel__package-badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  min-height: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  border: 1px solid var(--dd-border-subtle);
+  border-radius: var(--dd-radius-full);
+  background: var(--dd-surface-muted);
+  color: var(--dd-text-secondary);
+  font-size: 9px;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button,
+#asc-v2-panel.dd-browser-panel button.dd-button {
+  min-height: 32px;
+  max-width: 100%;
+  margin: 6px 6px 2px 0;
+  padding: 6px 10px !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--dd-radius-sm) !important;
+  font-family: inherit !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  white-space: normal;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button--primary,
+#asc-v2-panel.dd-browser-panel button.dd-button--primary {
+  border-color: var(--dd-color-accent) !important;
+  background: var(--dd-color-accent) !important;
+  color: var(--dd-color-on-accent) !important;
+  box-shadow: 0 7px 18px color-mix(in srgb, var(--dd-color-accent) 18%, transparent) !important;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button--secondary {
+  border-color: var(--dd-border-subtle) !important;
+  background: var(--dd-control-background) !important;
+  color: var(--dd-text-primary) !important;
+  box-shadow: inset 0 1px #ffffff47 !important;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button--ghost {
+  border-color: transparent !important;
+  background: transparent !important;
+  color: var(--dd-text-secondary) !important;
+  box-shadow: none !important;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button--danger {
+  border-color: var(--dd-color-error) !important;
+  background: var(--dd-color-error) !important;
+  color: #ffffff !important;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button:disabled,
+#asc-v2-panel.dd-browser-panel button.dd-button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.48;
+  transform: none !important;
+}
+
+#ss-v3-panel.dd-browser-panel button.dd-button:focus-visible,
+#asc-v2-panel.dd-browser-panel button.dd-button:focus-visible,
+#asc-v2-panel.dd-browser-panel #asc-v2-pairing:focus-visible {
+  outline: 3px solid var(--dd-focus-ring) !important;
+  outline-offset: 2px;
+}
+
+#ss-v3-panel.dd-browser-panel label {
+  display: block;
+  margin-top: 8px;
+  color: var(--dd-text-primary);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__input,
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__select,
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__textarea,
+#asc-v2-panel.dd-browser-panel #asc-v2-pairing {
+  width: 100% !important;
+  min-width: 0;
+  border: 1px solid var(--dd-border-subtle) !important;
+  border-radius: var(--dd-radius-sm) !important;
+  outline: 0;
+  background: var(--dd-control-background) !important;
+  color: var(--dd-text-primary) !important;
+  box-shadow: inset 0 1px #ffffff47 !important;
+  font-family: Consolas, "Cascadia Mono", monospace !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0 !important;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__input,
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__select,
+#asc-v2-panel.dd-browser-panel #asc-v2-pairing {
+  min-height: 34px;
+  padding: 6px 9px !important;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__textarea {
+  min-height: 92px;
+  padding: 9px 10px !important;
+  resize: vertical;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__input:focus,
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__select:focus,
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__textarea:focus,
+#asc-v2-panel.dd-browser-panel #asc-v2-pairing:focus {
+  border-color: color-mix(in srgb, var(--dd-color-accent) 55%, var(--dd-border-subtle)) !important;
+  box-shadow: 0 0 0 3px var(--dd-focus-ring) !important;
+}
+
+#ss-v3-panel.dd-browser-panel #ss-v3-message,
+#asc-v2-panel.dd-browser-panel #asc-v2-status {
+  color: var(--dd-text-secondary) !important;
+  font-size: 11px !important;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+#asc-v2-panel.dd-browser-panel #asc-v2-status[data-tone="good"] {
+  color: var(--dd-color-success) !important;
+}
+
+#asc-v2-panel.dd-browser-panel #asc-v2-status[data-tone="bad"] {
+  color: var(--dd-color-error) !important;
+}
+
+#asc-v2-panel.dd-browser-panel > small {
+  color: var(--dd-text-secondary) !important;
+  font-size: 10px !important;
+  line-height: 1.45;
+}
+
+#ss-v3-panel.dd-browser-panel .dd-browser-panel__output {
+  overflow: auto;
+  border: 1px solid var(--dd-border-subtle) !important;
+  border-radius: var(--dd-radius-sm) !important;
+  background: var(--dd-surface-muted) !important;
+  color: var(--dd-text-primary);
+  box-shadow: inset 0 1px #ffffff47;
+  font-family: Consolas, "Cascadia Mono", monospace;
+  font-size: 10px !important;
+  line-height: 1.5;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+#ss-v3-panel.dd-browser-panel #ss-v3-status {
+  max-height: 190px;
+  margin-top: 9px;
+  padding: 9px;
+}
+
+#ss-v3-panel.dd-browser-panel .ss-v3-divider {
+  margin: 11px 0 4px;
+  border: 0;
+  border-top: 1px solid var(--dd-border-subtle);
+}
+
+#asc-v2-panel.dd-browser-panel {
+  width: 300px !important;
+  max-height: min(70vh, calc(100vh - 24px)) !important;
+  padding: 12px !important;
+  display: grid !important;
+  gap: 7px !important;
+}
+
+@media (max-width: 700px) {
+  #ss-v3-panel.dd-browser-panel {
+    top: 8px !important;
+    right: 8px !important;
+    left: 8px !important;
+    width: auto !important;
+    max-height: 50vh !important;
+  }
+
+  #asc-v2-panel.dd-browser-panel {
+    top: auto !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    left: auto !important;
+    width: min(300px, calc(100vw - 16px)) !important;
+    max-height: 45vh !important;
+  }
+}
