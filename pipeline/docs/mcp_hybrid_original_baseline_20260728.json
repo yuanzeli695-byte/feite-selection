@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "sellerSpriteMcpHybridBaseline/v1",
+  "capturedAt": "2026-07-28T00:00:00+08:00",
+  "purpose": "Freeze original strict-selection files before MCP hybrid development.",
+  "preflightApprovedPair": {
+    "collector": "0.4.6",
+    "runner": "0.3.7",
+    "collectorRollback": "0.4.5",
+    "runnerRollback": "0.3.6"
+  },
+  "files": [
+    {
+      "path": "scripts/sellersprite_traffic_collector_v0.4.6.user.js",
+      "sha256": "9e1062ec056715990f472ed66b80fe9c8b14e9a95bdc337b8ece17153c5e0316",
+      "bytes": 31643
+    },
+    {
+      "path": "scripts/sellersprite_integrated_runner_v0.3.7.user.js",
+      "sha256": "ae7c0dc8d0bd6e79fad82a8ce6350309d5df79403a4082fdcc276ac4256e00c6",
+      "bytes": 57648
+    },
+    {
+      "path": "scripts/sellersprite_traffic_collector_v0.4.5.user.js",
+      "sha256": "4a95d6d48acc9155f23149b0ed9076132e4f7c630687e8ef9135dedef1e5f173",
+      "bytes": 28967
+    },
+    {
+      "path": "scripts/sellersprite_integrated_runner_v0.3.6.user.js",
+      "sha256": "d2a3d0f010bd78c7b5f604664d605b862aa8ea0469ac10f685819799dfbed000",
+      "bytes": 55348
+    },
+    {
+      "path": "scripts/selection_excel_bridge.py",
+      "sha256": "fc901d73de739d82c47a701b8e7adacbee2d1f9da9996551cfffb3b4d7b2ecda",
+      "bytes": 28258
+    },
+    {
+      "path": "scripts/sellersprite_traffic_collector_v0.4.6_zh_p1.user.js",
+      "sha256": "47bb3922ca319044a9782272dd3a01266e367df6f1864f8f65b133739539997a",
+      "bytes": 32173
+    },
+    {
+      "path": "scripts/sellersprite_integrated_runner_v0.3.8.2_zh_excel.user.js",
+      "sha256": "2d5fa9e00b8b7a67a0da7a1f2c8374150429d0e2b364ff5252a06142f6896c65",
+      "bytes": 117128
+    },
+    {
+      "path": "config/rules.json",
+      "sha256": "f7f940887db59f1b5c970dbc6b0adaf9d132634bcc75c093cd205da36f62ed03",
+      "bytes": 614
+    },
+    {
+      "path": "config/exclusions.json",
+      "sha256": "3d66a6538f7fed5bf696e6306c2f7e074bbf0d06bf15777a538fe9d30e099236",
+      "bytes": 3373
+    }
+  ],
+  "invariants": {
+    "originalFilesMustRemainUnchanged": true,
+    "batchSchema": "sellerSpriteIntegratedBatch/v0.3.0",
+    "gateCCollectorOwned": true,
+    "finalAcceptanceAuthorityUnchanged": true,
+    "tier23PreloadingEnabled": false
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "hardExclusions": {
+    "ip_character_risk": [
+      "marvel",
+      "disney",
+      "star wars",
+      "mickey",
+      "minnie",
+      "elsa",
+      "frozen",
+      "peanuts",
+      "snoopy",
+      "super mario",
+      "pokemon",
+      "hello kitty",
+      "barbie",
+      "spider-man",
+      "spiderman",
+      "batman",
+      "superman",
+      "harry potter",
+      "nintendo",
+      "nfl",
+      "nba",
+      "mlb",
+      "official licensed"
+    ],
+    "health_medical_chemical": [
+      "medical",
+      "therapeutic",
+      "healing",
+      "cure",
+      "treatment",
+      "tooth",
+      "teeth",
+      "enamel",
+      "remineralizing",
+      "nano hydroxyapatite",
+      "supplement",
+      "supplements",
+      "vitamin",
+      "vitamins",
+      "gummies",
+      "gummy",
+      "capsule",
+      "capsules",
+      "iodine",
+      "selenium",
+      "zinc",
+      "ashwagandha",
+      "thyroid",
+      "serum",
+      "lotion",
+      "skincare",
+      "essential oil",
+      "fragrance",
+      "perfume"
+    ],
+    "chemical_consumable": [
+      "floor cleaning tablet",
+      "floor cleaning tablets",
+      "cleaning tablet",
+      "cleaning tablets",
+      "cleaning sheets",
+      "bleach",
+      "acid",
+      "spray",
+      "aerosol",
+      "pesticide",
+      "insecticide",
+      "repellent"
+    ],
+    "food_ingestible": [
+      "food",
+      "edible",
+      "chewable",
+      "drops",
+      "drink mix"
+    ],
+    "electric_electronic": [
+      "battery",
+      "rechargeable",
+      "charger",
+      "usb",
+      "cordless",
+      "electric",
+      "electronic",
+      "led light",
+      "bluetooth"
+    ],
+    "magnetic": [
+      "magnet",
+      "magnetic"
+    ],
+    "apparel_wearable_jewelry": [
+      "shirt",
+      "pants",
+      "dress",
+      "shoes",
+      "sneaker",
+      "hat",
+      "cap",
+      "necklace",
+      "earrings",
+      "bracelet",
+      "jewelry",
+      "hair clip",
+      "hair clips",
+      "headband"
+    ],
+    "safety_sensitive": [
+      "helmet",
+      "car seat",
+      "child safety",
+      "life jacket",
+      "weapon",
+      "knife",
+      "taser"
+    ],
+    "dangerous_material": [
+      "flammable",
+      "explosive",
+      "hazmat",
+      "compressed gas"
+    ]
+  },
+  "reviewFlags": {
+    "seasonal": [
+      "4th of july",
+      "independence day",
+      "patriotic",
+      "memorial day",
+      "fathers day",
+      "father's day",
+      "back-to-school"
+    ],
+    "compatibility_brand_review": [
+      "compatible with",
+      "fits",
+      "fitment",
+      "replacement",
+      "craftsman"
+    ],
+    "child_baby_toy_review": [
+      "baby",
+      "doll",
+      "toy",
+      "kids",
+      "children",
+      "girls",
+      "boys"
+    ],
+    "food_contact_review": [
+      "cutting board",
+      "plate",
+      "plates",
+      "napkin",
+      "napkins",
+      "cup",
+      "cups",
+      "serving tray"
+    ],
+    "generic_cartoon_review": [
+      "cartoon",
+      "kitty",
+      "character"
+    ],
+    "simple_automotive_review": [
+      "car decorations",
+      "golf cart decorations",
+      "rearview mirror",
+      "car hood"
+    ],
+    "fragile_solid_review": [
+      "picture frame",
+      "photo frame",
+      "glass"
+    ],
+    "patent_design_review": [
+      "unique",
+      "design",
+      "patent"
+    ]
+  },
+  "brandScrutiny": [
+    "apple",
+    "nike",
+    "samsung",
+    "sony",
+    "lego"
+  ]
+}

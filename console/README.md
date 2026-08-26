@@ -10,10 +10,19 @@
 
 ## 启动
 
+便携客户端请从仓库根目录启动，首次使用先运行 `install-client.ps1`，然后运行
+`start-client.ps1`；`console/start.ps1` 仅保留为兼容包装器：
+
 ```powershell
-cd C:\Users\13045\Documents\亚马逊电商选品
-.\automation_console\start.ps1
+cd C:\path\to\feite-selection
+.\install-client.ps1
+.\start-client.ps1
 ```
+
+正式浏览器流程固定使用 `http://127.0.0.1:8788`，因为 Bridge、Collector、
+Runner 及脚本安装地址都回连该端口。`8788` 被占用时不要换到 `8790`，先确认
+占用进程是否为本仓库的 `console/server.py`，仅可使用 `stop-client.ps1` 停止
+本项目服务。其他进程保持不动。
 
 Windows 子进程窗口策略为 `windows-no-console-v1.0.0`。控制台默认使用 `CREATE_NO_WINDOW` 启动预检、流水线和工作簿构建子进程，避免页面轮询时闪出命令行窗口。临时回滚时，在启动控制台前设置 `AMAZON_CONSOLE_WINDOWS_NO_CONSOLE=0`。
 
@@ -25,7 +34,9 @@ Windows 子进程窗口策略为 `windows-no-console-v1.0.0`。控制台默认�
 
 Browser Bridge / Runner 属于外部会话，不纳入本地 PID 接管；它们仍仅依据现有 token、版本、commandId、executionMode、batchName、queueHash 和心跳租约恢复。该机制只解决重启后不再假报本地任务“运行中”，不改变 A-F、历史去重或最终放行规则。
 
-控制台绑定正式项目 `C:\Users\13045\Desktop\amazon_products`，当前候选来源默认使用 `browser_export`：子账号在 SellerSprite 网页按类目由 SellerSprite Bridge 自动执行严格查询并回传 `.xlsx/.csv/.tsv`，控制台校验完整查询 URL 后复用正式严格预筛、历史去重、主图和候选分析表流程。`official_api` 仍保留为可选模式，但需要主账号 Open API 密钥。当前技术适配 Browser Bridge 协议 `2.1.3` / 脚本 `2.1.6`、Collector `0.4.6.4`、Runner `0.3.8.13` 和 SellerSprite Bridge `1.0.4`；Collector/Runner 仍是候选组合，正式放量前需要完成单 ASIN 现场 smoke 与不少于 30 个真实 ASIN 的配对证据。全局类目池、批次、命令、事件、浏览器会话和产物索引保存在 `automation_console/data/console.db`；正式运行产物保存在正式项目的 `runs/<runId>/`。
+控制台默认绑定本仓库的 `pipeline/`；需要使用外部正式项目时，通过
+`AMAZON_CONSOLE_PROJECT_ROOT` 显式指定。当前候选来源默认使用
+`browser_export`：子账号在 SellerSprite 网页按类目由 SellerSprite Bridge 自动执行严格查询并回传 `.xlsx/.csv/.tsv`，控制台校验完整查询 URL 后复用正式严格预筛、历史去重、主图和候选分析表流程。`official_api` 仍保留为可选模式，但需要主账号 Open API 密钥。当前技术适配 Browser Bridge 协议 `2.1.3` / 脚本 `2.1.6`、Collector `0.4.6.4`、Runner `0.3.8.13` 和 SellerSprite Bridge `1.0.4`；Collector/Runner 仍是候选组合，正式放量前需要完成单 ASIN 现场 smoke 与不少于 30 个真实 ASIN 的配对证据。全局类目池、批次、命令、事件、浏览器会话和产物索引保存在 `console/data/console.db`；正式运行产物保存在配置项目的 `runs/<runId>/`。
 
 ## 三段流程
 
@@ -63,7 +74,8 @@ SellerSprite Bridge 的回滚方式是停用或删除 `sellersprite_browser_brid
 - 认证请求头：`secret-key`
 - 类目解析：`GET /v1/product/node`
 - 选品查询：`POST /v1/product/research`
-- 凭据：Windows DPAPI 加密文件 `C:\Users\13045\.codex\secrets\sellersprite-open-api.credential.xml`
+- 凭据：当前 Windows 用户的 DPAPI 加密文件
+  `%USERPROFILE%\.codex\secrets\sellersprite-open-api.credential.xml`
 
 控制台不会把 `secret-key` 写入批次、日志、前端或源代码。API 异常、类目歧义、来源证据缺失或严格预筛失败都会关闭失败，不会产生可确认队列。
 
@@ -100,8 +112,8 @@ Bridge 协议 `2.1.3` / 脚本 `2.1.6` 会先重算控制台批准队列 SHA，�
 控制台保留现有原生 HTML/CSS/JS 运行方式，并使用用户提供的 `@dangdang/ui` `0.2.5` 发布样式和组件类。按钮、状态徽标、进度条和提示条现在直接使用 `dd-button`、`dd-badge`、`dd-progress` 和 `dd-toast`；原有 ID、`data-action`、表单提交和轮询/SSE 事件不变。重新从固定压缩包生成并校验本地发布样式：
 
 ```powershell
-cd C:\Users\13045\Documents\亚马逊电商选品
-corepack pnpm --dir automation_console run build:ui
+cd C:\path\to\feite-selection
+corepack pnpm --dir console run build:ui
 ```
 
 构建命令从 `vendor/dangdang-ui-0.2.5.tgz` 提取 `package/dist/styles.css`，SHA-256 不匹配时失败关闭。旧 `static/vendor/fluent-components.js` 不再由 `index.html` 加载，只保留为显式回滚资产；需要重建该资产时使用 `npm run build:fluent-rollback`。

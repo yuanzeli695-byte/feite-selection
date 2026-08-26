@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "sellerSpriteMcpHybridPolicy/v1",
+  "policyVersion": "0.1.0",
+  "mode": "shadow",
+  "marketplace": "US",
+  "outboundMcpEnabled": false,
+  "finalAuthority": false,
+  "officialMonthlyLimit": 15000,
+  "operationalMonthlyCap": 12000,
+  "defaultRunBudget": 100,
+  "warningThresholdsPct": [75, 80, 90, 95],
+  "tools": {
+    "competitor_lookup": {
+      "maxAsinsPerCall": 40,
+      "ttlHours": 6,
+      "roles": ["gate_b_shadow", "gate_d_shadow", "gate_f_shadow"],
+      "finalGateEligible": false
+    },
+    "keepa_info": {
+      "maxAsinsPerCall": 1,
+      "ttlHours": 6,
+      "roles": ["gate_d_shadow", "gate_e_shadow", "gate_f_shadow"],
+      "finalGateEligible": false
+    },
+    "traffic_extend": {
+      "maxAsinsPerCall": 20,
+      "ttlHours": 24,
+      "roles": ["ranking_shadow"],
+      "finalGateEligible": false
+    }
+  }
+}

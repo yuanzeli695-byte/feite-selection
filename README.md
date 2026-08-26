@@ -4,8 +4,10 @@ Private source package for the Feite Amazon US product-selection workflow.
 
 This repository contains the local selection console, the strict candidate
 pipeline, and the browser userscripts used by the current workflow. It is a
-source archive and deployment reference; it does not contain live batches,
-browser sessions, exported product data, or credentials.
+portable deployment package as well as a source archive: a fresh checkout can
+be initialized on another Windows machine without copying this machine's live
+data. It does not contain browser sessions, exported product data, or
+credentials.
 
 ## Layout
 
@@ -33,23 +35,48 @@ must not be selected for normal operation.
 The userscripts are evidence-collection components. They do not replace the
 strict A-F replay and final workbook acceptance checks.
 
-## Local startup
+## Portable Windows startup
 
-The source package preserves the current Windows layout. The console expects
-the canonical pipeline checkout at:
-
-`C:\Users\13045\Desktop\amazon_products`
-
-Start the console from the original working directory with:
+On a fresh private checkout, run once in PowerShell:
 
 ```powershell
-cd C:\Users\13045\Documents\亚马逊电商选品
-.\automation_console\start.ps1
+cd C:\path\to\feite-selection
+Set-ExecutionPolicy -Scope Process Bypass
+.\install-client.ps1
 ```
 
-The copied `console/` directory is for source distribution. It is not a
-replacement deployment directory until its path configuration is deliberately
-reviewed.
+The installer creates empty runtime directories and an empty strict-history
+file, then installs the two Python packages needed for workbook and image
+handling. It never imports another machine's database, pairing code, browser
+profile, or credentials. Start and stop the service with:
+
+```powershell
+.\start-client.ps1                 # http://127.0.0.1:8788
+.\stop-client.ps1
+.\verify-client.ps1
+```
+
+`start-client.ps1` resolves Python and Node.js from the installed toolchain or
+the system PATH, sets the project root to this checkout's `pipeline/`, and
+records a PID lease in `.runtime/`. Formal browser operation is fixed to
+`127.0.0.1:8788` because the approved userscripts and their install URLs use
+that callback. If `8788` is occupied, do not switch ports: inspect the owner
+and stop it only when it is this checkout's `console/server.py`. The stop
+script verifies the recorded command line before stopping anything; it will
+refuse to touch an unrelated process. The console also accepts `AMAZON_CONSOLE_PROJECT_ROOT`,
+`AMAZON_CONSOLE_PYTHON_EXE`, `AMAZON_CONSOLE_NODE_EXE`, and
+`AMAZON_CONSOLE_PREFLIGHT_SCRIPT` for an explicitly managed external project
+root.
+
+The approved browser pair remains Bridge `2.1.3`, Collector `0.4.6.4`, and
+Runner `0.3.8.13`. The console verifies the byte-level SHA-256 manifest before
+declaring the pair technically ready; a changed or missing protected script
+fails closed. The `0.3.8.12` Runner is retained only as historical source and
+is never selected by the portable defaults.
+
+The first overview after startup may show a conservative preflight state while
+the read-only check runs. A real batch is still blocked unless the full strict
+preflight and the existing A-F acceptance evidence pass.
 
 ## Security boundary
 
@@ -61,15 +88,20 @@ See `SECURITY.md` for the handling policy.
 
 ## Verification
 
-Run the repository checks from their respective source roots after installing
-the local dependencies:
+Run the repository checks after installing the local dependencies:
 
 ```powershell
 python -m pytest pipeline/tests
 corepack pnpm --dir console run test:ui
+.\verify-client.ps1 -NoServiceCheck
 ```
 
-The official strict preflight must still be run against the canonical project
-root before any real selection batch. A passing source-package check does not
-authorize a formal product-selection release.
+The bundled `pipeline/scripts/preflight.py` is the same read-only strict
+preflight used by the workflow. A passing package check does not authorize a
+formal product-selection release; browser login, US delivery address, one
+ASIN smoke, and paired real-ASIN evidence remain required.
 
+Seven tests that analyze historical MCP/P2 evidence are skipped on a fresh
+checkout when their intentionally excluded `runs/` artifacts are absent. If
+those evidence bundles are supplied in a controlled audit workspace, the same
+tests run and keep their original assertions.

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -16,7 +17,10 @@ from urllib.parse import parse_qs, urlparse
 
 
 CONSOLE_ROOT = Path(__file__).resolve().parent
-DEFAULT_PROJECT_ROOT = Path(r"C:\Users\13045\Desktop\amazon_products")
+DEFAULT_PROJECT_ROOT = Path(
+    os.environ.get("AMAZON_CONSOLE_PROJECT_ROOT")
+    or (CONSOLE_ROOT.parent / "pipeline")
+).expanduser().resolve()
 sys.path.insert(0, str(CONSOLE_ROOT))
 sys.path.insert(0, str(DEFAULT_PROJECT_ROOT / "scripts"))
 

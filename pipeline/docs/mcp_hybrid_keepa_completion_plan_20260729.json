@@ -1,0 +1,441 @@
+{
+  "schemaVersion": "sellerSpriteMcpShadowPlan/v1",
+  "planId": "mcp-shadow-20260729-keepa-complete-25",
+  "marketplace": "US",
+  "purpose": "Complete the frozen 30-ASIN Keepa shadow comparison without changing A-F decisions.",
+  "taskCallBudget": {
+    "hardCeiling": 50,
+    "priorCalls": 8,
+    "plannedCalls": 25,
+    "maximumAfterPlan": 33
+  },
+  "sample": [
+    {
+      "asin": "B0GYNWQG9B"
+    },
+    {
+      "asin": "B0H5C44WJY"
+    },
+    {
+      "asin": "B0GX5V2PGZ"
+    },
+    {
+      "asin": "B0GPW5DJ3K"
+    },
+    {
+      "asin": "B0H5K8BCS2"
+    },
+    {
+      "asin": "B0GYNL68SP"
+    },
+    {
+      "asin": "B0H32865JD"
+    },
+    {
+      "asin": "B0GZ4MQ76B"
+    },
+    {
+      "asin": "B0H38YNK43"
+    },
+    {
+      "asin": "B0GR6BF3SD"
+    },
+    {
+      "asin": "B0GTKC68KJ"
+    },
+    {
+      "asin": "B0GTMP5D36"
+    },
+    {
+      "asin": "B0GSFY6L9V"
+    },
+    {
+      "asin": "B0GWMYZD31"
+    },
+    {
+      "asin": "B0GHCF15T7"
+    },
+    {
+      "asin": "B0GVF4WYJ7"
+    },
+    {
+      "asin": "B0GT957CQR"
+    },
+    {
+      "asin": "B0GRTTQZWZ"
+    },
+    {
+      "asin": "B0GTXNB6KX"
+    },
+    {
+      "asin": "B0GVRXTF43"
+    },
+    {
+      "asin": "B0FPQSXRX7"
+    },
+    {
+      "asin": "B0GH1FC69M"
+    },
+    {
+      "asin": "B0GHCJGL3S"
+    },
+    {
+      "asin": "B0GX24P2GK"
+    },
+    {
+      "asin": "B0H2DS7VXF"
+    }
+  ],
+  "requests": [
+    {
+      "id": "keepa-B0GYNWQG9B",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GYNWQG9B"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GYNWQG9B",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0H5C44WJY",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0H5C44WJY"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0H5C44WJY",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GX5V2PGZ",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GX5V2PGZ"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GX5V2PGZ",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GPW5DJ3K",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GPW5DJ3K"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GPW5DJ3K",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0H5K8BCS2",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0H5K8BCS2"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0H5K8BCS2",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GYNL68SP",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GYNL68SP"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GYNL68SP",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0H32865JD",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0H32865JD"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0H32865JD",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GZ4MQ76B",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GZ4MQ76B"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GZ4MQ76B",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0H38YNK43",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0H38YNK43"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0H38YNK43",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GR6BF3SD",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GR6BF3SD"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GR6BF3SD",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GTKC68KJ",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GTKC68KJ"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GTKC68KJ",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GTMP5D36",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GTMP5D36"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GTMP5D36",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GSFY6L9V",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GSFY6L9V"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GSFY6L9V",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GWMYZD31",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GWMYZD31"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GWMYZD31",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GHCF15T7",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GHCF15T7"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GHCF15T7",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GVF4WYJ7",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GVF4WYJ7"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GVF4WYJ7",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GT957CQR",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GT957CQR"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GT957CQR",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GRTTQZWZ",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GRTTQZWZ"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GRTTQZWZ",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GTXNB6KX",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GTXNB6KX"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GTXNB6KX",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GVRXTF43",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GVRXTF43"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GVRXTF43",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0FPQSXRX7",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0FPQSXRX7"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0FPQSXRX7",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GH1FC69M",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GH1FC69M"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GH1FC69M",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GHCJGL3S",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GHCJGL3S"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GHCJGL3S",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0GX24P2GK",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0GX24P2GK"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0GX24P2GK",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    },
+    {
+      "id": "keepa-B0H2DS7VXF",
+      "tool": "keepa_info",
+      "calls": 1,
+      "asins": [
+        "B0H2DS7VXF"
+      ],
+      "request": {
+        "marketplace": "US",
+        "asin": "B0H2DS7VXF",
+        "dailyLatest": true,
+        "returnFields": "asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,itemWeight,packageWeight,parentAsin,priceHistory,ratingHistory,reviewsHistory"
+      }
+    }
+  ]
+}

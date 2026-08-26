@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "sellerSpriteMcpPrefilteredCandidates/v1",
+  "runId": "fixture-prefetch-run",
+  "marketplace": "US",
+  "generatedAt": "2026-07-29T01:00:00Z",
+  "finalAuthority": false,
+  "sourceProvenance": {
+    "sourceId": "fixture-prefilter-export",
+    "sourcePath": "tests/fixtures_mcp_hybrid_prefiltered_candidates.json",
+    "sourceSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "capturedAt": "2026-07-29T00:55:00Z"
+  },
+  "candidates": [
+    {
+      "asin": "B0AAAA0001",
+      "prefilterStatus": "pass",
+      "sourceProvenance": {
+        "sourceId": "fixture-row-1",
+        "sourcePath": "candidates[0]",
+        "sourceSha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    },
+    {
+      "asin": "B0AAAA0002",
+      "prefilterStatus": "pass",
+      "sourceProvenance": {
+        "sourceId": "fixture-row-2",
+        "sourcePath": "candidates[1]",
+        "sourceSha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    },
+    {
+      "asin": "B0AAAA0003",
+      "prefilterStatus": "pass",
+      "sourceProvenance": {
+        "sourceId": "fixture-row-3",
+        "sourcePath": "candidates[2]",
+        "sourceSha256": "3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    },
+    {
+      "asin": "B0AAAA0004",
+      "prefilterStatus": "pass",
+      "sourceProvenance": {
+        "sourceId": "fixture-row-4",
+        "sourcePath": "candidates[3]",
+        "sourceSha256": "4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    }
+  ]
+}

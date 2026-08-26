@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "sellerSpriteMcpEvidenceBundle/v1",
+  "runId": "fixture-run",
+  "marketplace": "US",
+  "generatedAt": "2026-07-28T03:00:00Z",
+  "source": "offline-fixture",
+  "evidence": [
+    {
+      "schemaVersion": "sellerSpriteMcpEvidence/v1",
+      "evidenceId": "fixture-keepa-b0aaaa0001-v1",
+      "runId": "fixture-run",
+      "marketplace": "US",
+      "mode": "shadow",
+      "finalAuthority": false,
+      "targetAsin": "B0AAAA0001",
+      "actualAsin": "B0AAAA0001",
+      "tool": {
+        "name": "keepa_info",
+        "version": "unknown"
+      },
+      "request": {
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asinCount": 1
+      },
+      "response": {
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "capturedAt": "2026-07-28T01:00:00Z",
+        "expiresAt": "2026-07-28T07:00:00Z"
+      },
+      "fields": {
+        "price": 19.99,
+        "rating": 4.8,
+        "ratings": 12,
+        "childMonthlySales": 100,
+        "variations": 1,
+        "imageUrl": "https://images.example.invalid/B0AAAA0001.jpg"
+      },
+      "fieldProvenance": {
+        "price": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].price",
+          "semantics": "current_price"
+        },
+        "rating": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].rating",
+          "semantics": "current_rating"
+        },
+        "ratings": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].ratings",
+          "semantics": "rating_count"
+        },
+        "childMonthlySales": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].amzUnit",
+          "semantics": "child_monthly_sales"
+        },
+        "variations": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].variations",
+          "semantics": "variation_count"
+        },
+        "imageUrl": {
+          "sourceTool": "keepa_info",
+          "sourcePath": "rows[0].imageUrl",
+          "semantics": "main_image_url"
+        }
+      },
+      "missingFields": [],
+      "fallbackRequired": false
+    }
+  ]
+}

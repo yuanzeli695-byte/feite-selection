@@ -1,0 +1,41 @@
+{
+  "targetN": 10,
+  "maxAttemptTotal": 100,
+  "maxAttemptPerBatch": 30,
+  "candidateSources": [
+    {
+      "kind": "manual_paste",
+      "ref": "runs/{runId}/manual_asins.txt",
+      "priority": 1
+    },
+    {
+      "kind": "sellersprite_ranking_export",
+      "ref": "runs/{runId}/sellersprite_candidates.csv",
+      "priority": 2
+    },
+    {
+      "kind": "keyword_export",
+      "ref": "runs/{runId}/keyword_candidates.csv",
+      "priority": 3
+    }
+  ],
+  "cache": {
+    "sellersprite_ttl_hours": 168,
+    "product_meta_ttl_hours": 24
+  },
+  "sellersprite": {
+    "batchSizePerRunnerSession": 20,
+    "timeoutPerAsinSec": 90,
+    "retryPerAsin": 1
+  },
+  "images": {
+    "downloadTimeoutSec": 15,
+    "retry": 2,
+    "maxWidthPx": 400
+  },
+  "output": {
+    "finalXlsxNamePattern": "final_candidates_{runId}.xlsx",
+    "auditXlsxNamePattern": "rejected_audit_{runId}.xlsx",
+    "cnLocale": true
+  }
+}

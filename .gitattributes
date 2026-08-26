@@ -1,0 +1,3 @@
+/console/browser_bridge_v2.user.js -text
+/pipeline/scripts/sellersprite_traffic_collector_v0.4.6.4_zh_no_data_fast_fail.user.js -text
+/pipeline/scripts/sellersprite_integrated_runner_v0.3.8.13_zh_keepa_passive_30s.user.js -text

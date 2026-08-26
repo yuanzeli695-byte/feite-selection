@@ -1,0 +1,54 @@
+[
+  {
+    "id": "week23_explicit_zero_share_missing",
+    "sourceFile": "runs/new_20260710_batch2/batch_batch2.json",
+    "asin": "B0GD75WVD1",
+    "shape": "explicit_zero",
+    "rawText": "2026第23周(05/31~06/06)\n总流量\n31,443.48(628.93,\n↑\n2.00%\n)\n自然流量\n0 无变化\n--\nSP广告流量\n31,443.48(628.93,\n↑\n2.00%\n)\n占比100.00%\nSB广告流量\n0 无变化\n--\nSBV广告流量\n0 无变化\n--",
+    "expected": {
+      "totalTraffic": 31443.48,
+      "naturalTraffic": 0,
+      "naturalSharePct": 0,
+      "naturalShareDerived": true
+    }
+  },
+  {
+    "id": "week24_natural_dash_missing",
+    "sourceFile": "runs/new_20260711_batch3_20/batch_batch3.json",
+    "asin": "B0GT4KXPGY",
+    "shape": "dash_missing",
+    "rawText": "2026第24周(06/07~06/13)\n总流量\n2,040.76(1,773.72,\n↑\n86.91%\n)\n自然流量\n--(-267.04,\n↓\n-26,704.45%\n)\n--\nSP广告流量\n2,040.76(2,040.76,\n↑\n100.00%\n)\n占比100.00%\nSB广告流量\n0 无变化\n--\nSBV广告流量\n0 无变化\n--",
+    "expected": {
+      "totalTraffic": 2040.76,
+      "naturalTraffic": null,
+      "naturalSharePct": null,
+      "naturalShareDerived": false
+    }
+  },
+  {
+    "id": "week25_positive_explicit_share",
+    "sourceFile": "runs/new_20260710_batch2/batch_batch2.json",
+    "asin": "B0GSQNTX5G",
+    "shape": "positive_explicit_share",
+    "rawText": "2026第25周(06/14~06/20)\n总流量\n208,269.23(-163,662.57,\n↓\n-78.58%\n)\n自然流量\n145,345.94(-136,522.18,\n↓\n-93.93%\n)\n占比69.79%\nSP广告流量\n36,412.33(339.90,\n↑\n0.93%\n)\n占比17.48%\nSB广告流量\n17,845.67(-2,955.26,\n↓\n-16.56%\n)\n占比8.57%\nSBV广告流量\n8,665.30(-24,525.05,\n↓\n-283.03%\n)\n占比4.16%",
+    "expected": {
+      "totalTraffic": 208269.23,
+      "naturalTraffic": 145345.94,
+      "naturalSharePct": 69.79,
+      "naturalShareDerived": false
+    }
+  },
+  {
+    "id": "week26_zero_total_share_missing",
+    "sourceFile": "runs/new_20260710_batch2/batch_batch2.json",
+    "asin": "B0H36GD8MC",
+    "shape": "share_missing_total_zero",
+    "rawText": "2026第26周(06/21~06/27)\n总流量\n0 无变化\n自然流量\n0 无变化\n--\nSP广告流量\n0 无变化\n--\nSB广告流量\n0 无变化\n--\nSBV广告流量\n0 无变化\n--",
+    "expected": {
+      "totalTraffic": 0,
+      "naturalTraffic": 0,
+      "naturalSharePct": null,
+      "naturalShareDerived": false
+    }
+  }
+]

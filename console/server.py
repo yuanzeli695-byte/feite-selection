@@ -14,6 +14,7 @@ import hashlib
 import secrets
 import sqlite3
 import subprocess
+import sys
 import threading
 import time
 import uuid
@@ -26,21 +27,27 @@ from typing import Any
 from urllib.parse import parse_qs, unquote, urlencode, urlparse
 
 
-WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
-PROJECT_ROOT = Path(r"C:\Users\13045\Desktop\amazon_products")
-CONSOLE_ROOT = WORKSPACE_ROOT / "automation_console"
+CONSOLE_ROOT = Path(__file__).resolve().parent
+WORKSPACE_ROOT = CONSOLE_ROOT.parent
+PROJECT_ROOT = Path(
+    os.environ.get("AMAZON_CONSOLE_PROJECT_ROOT")
+    or (WORKSPACE_ROOT / "pipeline")
+).expanduser().resolve()
 DATA_DIR = CONSOLE_ROOT / "data"
 STATE_PATH = DATA_DIR / "batches.json"
 STATIC_DIR = CONSOLE_ROOT / "static"
-PYTHON_EXE = Path(r"C:\Users\13045\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe")
-NODE_EXE = Path(r"C:\Users\13045\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe")
+PYTHON_EXE = Path(os.environ.get("AMAZON_CONSOLE_PYTHON_EXE") or sys.executable).expanduser().resolve()
+NODE_EXE = Path(os.environ.get("AMAZON_CONSOLE_NODE_EXE") or shutil.which("node") or "node").expanduser()
 PREPARE_SCRIPT = PROJECT_ROOT / "scripts" / "prepare_runner_queue_from_sellersprite_export.mjs"
 SELLERSPRITE_PIPELINE_SCRIPT = CONSOLE_ROOT / "sellersprite_api_pipeline.py"
 BROWSER_EXPORT_PIPELINE_SCRIPT = CONSOLE_ROOT / "sellersprite_browser_export_pipeline.py"
 SELLERSPRITE_CREDENTIAL = Path.home() / ".codex" / "secrets" / "sellersprite-open-api.credential.xml"
 DIRECT_IMPORT_SCRIPT = WORKSPACE_ROOT / "direct_import_batch_to_replay.mjs"
 BUILD_SCRIPT = PROJECT_ROOT / "scripts" / "build_replay_workbooks.mjs"
-PREFLIGHT_SCRIPT = Path(r"C:\Users\13045\.codex\skills\amazon-us-strict-selection\scripts\preflight.py")
+PREFLIGHT_SCRIPT = Path(
+    os.environ.get("AMAZON_CONSOLE_PREFLIGHT_SCRIPT")
+    or (PROJECT_ROOT / "scripts" / "preflight.py")
+).expanduser().resolve()
 
 ALLOWED_BROWSER_STATUSES = {"waiting", "running", "paused", "completed", "needs_attention"}
 TERMINAL_STATUSES = {"completed", "failed", "cancelled"}
@@ -50,6 +57,11 @@ APPROVED_BROWSER_BRIDGE_VERSION = "2.1.3"
 APPROVED_BROWSER_BRIDGE_SCRIPT_VERSION = "2.1.6"
 ACTIVE_COLLECTOR_SCRIPT = PROJECT_ROOT / "scripts" / "sellersprite_traffic_collector_v0.4.6.4_zh_no_data_fast_fail.user.js"
 ACTIVE_RUNNER_SCRIPT = PROJECT_ROOT / "scripts" / "sellersprite_integrated_runner_v0.3.8.13_zh_keepa_passive_30s.user.js"
+PROTECTED_SCRIPT_HASHES = {
+    "bridge": "0BEA21250B8342AA7249D035D6EDB3A1D1F49775C53DF343B110C1BBADE6CC82",
+    "collector": "9ED48DFAFC4E71CCB36A2982EC48D99BAA75372BC809DE19752DEF36D3A1D7D3",
+    "runner": "0350FC1CDCA11E36FF3318FA947DED835C1D2B9DDEBC0CC7D9EDA15D5EC87E0C",
+}
 BROWSER_PAIR_RELEASE_STATUS = "candidate_pending_live_smoke_and_paired30"
 DEFAULT_CANDIDATE_SOURCE_MODE = "browser_export"
 DB_PATH = DATA_DIR / "console.db"
@@ -3561,6 +3573,34 @@ def set_stage_if_mutable(batch: dict[str, Any], stage: str, status: str, message
     set_stage(batch, stage, status, message, artifacts)
 
 
+def protected_script_integrity() -> dict[str, Any]:
+    paths = {
+        "bridge": CONSOLE_ROOT / "browser_bridge_v2.user.js",
+        "collector": ACTIVE_COLLECTOR_SCRIPT,
+        "runner": ACTIVE_RUNNER_SCRIPT,
+    }
+    actual: dict[str, str | None] = {}
+    errors: list[str] = []
+    for name, path in paths.items():
+        try:
+            actual[name] = hashlib.sha256(path.read_bytes()).hexdigest().upper()
+        except OSError as exc:
+            actual[name] = None
+            errors.append(f"{name}: {exc}")
+    matches = {
+        name: actual.get(name) == expected
+        for name, expected in PROTECTED_SCRIPT_HASHES.items()
+    }
+    return {
+        "ok": not errors and all(matches.values()),
+        "expected": PROTECTED_SCRIPT_HASHES,
+        "actual": actual,
+        "matches": matches,
+        "paths": {name: str(path) for name, path in paths.items()},
+        "errors": errors,
+    }
+
+
 def preflight() -> dict[str, Any]:
     with PREFLIGHT_EXECUTION_LOCK:
         if not PREFLIGHT_SCRIPT.exists():
@@ -3578,9 +3618,11 @@ def preflight() -> dict[str, Any]:
             "required": False,
             "activeCandidateSource": DEFAULT_CANDIDATE_SOURCE_MODE,
         }
+        script_integrity = protected_script_integrity()
         pair_checks = {
             "collectorFile": ACTIVE_COLLECTOR_SCRIPT.is_file(),
             "runnerFile": ACTIVE_RUNNER_SCRIPT.is_file(),
+            "protectedScriptHashes": script_integrity["ok"],
             "collectorVersion": False,
             "runnerVersion": False,
             "collectorFailClosedFlags": False,
@@ -3617,6 +3659,7 @@ def preflight() -> dict[str, Any]:
             "collectorPath": str(ACTIVE_COLLECTOR_SCRIPT),
             "runnerPath": str(ACTIVE_RUNNER_SCRIPT),
             "checks": pair_checks,
+            "scriptIntegrity": script_integrity,
             "technicalReady": pair_ok,
             "formalRunAuthorized": False,
             "releaseStatus": BROWSER_PAIR_RELEASE_STATUS,

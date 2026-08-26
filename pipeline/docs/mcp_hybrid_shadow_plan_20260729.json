@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "sellerSpriteMcpShadowPlan/v1",
+  "planId": "mcp-shadow-20260729-30-real",
+  "marketplace": "US",
+  "purpose": "Class-B paired shadow validation; MCP evidence is non-authoritative and cannot change A-F outcomes.",
+  "metadataRoots": {
+    "recent_browser": "runs/strict_auto_20260728_delivery",
+    "historical_browser": "runs/strict20_live_20260714_084136"
+  },
+  "sample": [
+    {"asin":"B0GX18X6HH","expectedOutcome":"pass","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GYNWQG9B","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0H29NZ4Q9","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0H5C44WJY","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GX5V2PGZ","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GS997HTY","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GPW5DJ3K","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0H5K8BCS2","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GYNL68SP","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0H32865JD","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GZ4MQ76B","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0H38YNK43","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GR6BF3SD","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GTKC68KJ","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GTMP5D36","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B09T9NNP8K","expectedOutcome":"reject","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GTQFW672","expectedOutcome":"pass","sourceClass":"recent_browser","sourceRoot":"runs/strict_auto_20260727_181314Z/batch02_clean_evidence"},
+    {"asin":"B0GSFY6L9V","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GWMYZD31","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GHCF15T7","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GVF4WYJ7","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GT957CQR","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GRTTQZWZ","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GTXNB6KX","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GVRXTF43","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0FPQSXRX7","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GH1FC69M","expectedOutcome":"pass","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GHCJGL3S","expectedOutcome":"reject","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0GX24P2GK","expectedOutcome":"reject","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"},
+    {"asin":"B0H2DS7VXF","expectedOutcome":"reject","sourceClass":"historical_browser","sourceRoot":"runs/strict20_live_20260714_084136"}
+  ],
+  "requests": [
+    {"id":"competitor-all","tool":"competitor_lookup","calls":1,"asins":"all","request":{"marketplace":"US","asins":"__SAMPLE__","matchType":3,"variation":"N","returnFields":"asin,title,brand,price,rating,reviews,totalUnits,totalAmount,availableDate,variations,imageUrl,categoryPath"}},
+    {"id":"traffic-01","tool":"traffic_extend","calls":1,"asins":"first20","request":{"marketplace":"US","asinList":"__FIRST20__","queryType":2,"historyDate":"202607","page":1,"size":20,"order":{"field":"trafficPercentage","desc":true},"returnFields":"asin,title,searches,searchesRank,purchases,purchaseRate,trafficPercentage,relationAsin,products"}},
+    {"id":"traffic-02","tool":"traffic_extend","calls":1,"asins":"last10","request":{"marketplace":"US","asinList":"__LAST10__","queryType":2,"historyDate":"202607","page":1,"size":20,"order":{"field":"trafficPercentage","desc":true},"returnFields":"asin,title,searches,searchesRank,purchases,purchaseRate,trafficPercentage,relationAsin,products"}},
+    {"id":"keepa-B0GX18X6HH","tool":"keepa_info","calls":1,"asins":["B0GX18X6HH"],"request":{"marketplace":"US","asin":"B0GX18X6HH","dailyLatest":true,"returnFields":"asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,priceHistory,ratingHistory,reviewsHistory"}},
+    {"id":"keepa-B0GTQFW672","tool":"keepa_info","calls":1,"asins":["B0GTQFW672"],"request":{"marketplace":"US","asin":"B0GTQFW672","dailyLatest":true,"returnFields":"asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,priceHistory,ratingHistory,reviewsHistory"}},
+    {"id":"keepa-B0GS997HTY","tool":"keepa_info","calls":1,"asins":["B0GS997HTY"],"request":{"marketplace":"US","asin":"B0GS997HTY","dailyLatest":true,"returnFields":"asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,priceHistory,ratingHistory,reviewsHistory"}},
+    {"id":"keepa-B0H29NZ4Q9","tool":"keepa_info","calls":1,"asins":["B0H29NZ4Q9"],"request":{"marketplace":"US","asin":"B0H29NZ4Q9","dailyLatest":true,"returnFields":"asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,priceHistory,ratingHistory,reviewsHistory"}},
+    {"id":"keepa-B09T9NNP8K","tool":"keepa_info","calls":1,"asins":["B09T9NNP8K"],"request":{"marketplace":"US","asin":"B09T9NNP8K","dailyLatest":true,"returnFields":"asin,title,brand,price,rating,reviews,variations,imageUrl,categoryPath,dimensions,packageDimensions,priceHistory,ratingHistory,reviewsHistory"}}
+  ]
+}

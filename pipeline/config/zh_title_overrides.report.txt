@@ -1,0 +1,15 @@
+# title_to_cn 批量报告
+输入: runs\new_20260711_batch3_20\candidate_meta_batch3.json
+输出: config\zh_title_overrides.json
+
+覆盖: 17/20
+  high(高置信度): 7
+  medium(多品类命中): 10
+  low(仅品类词): 0
+  kept_existing(已有覆盖): 0
+  manual(需人工): 3
+
+## 需人工补的品:
+  B0GTNH4FV1: 7 Pack Clear Acrylic Purse Divider, No Assembly,Adjustable Handbag Organizer, An
+  B0GTYFBN9F: Expandable Closet Tension Shelf, No-Drill Storage Rack Metal Organizer, Adjustab
+  B0GVMNZYN7: Mziart Large Plant Labels for Outdoor Garden Label Stakes 60 Pack, Waterproof 12

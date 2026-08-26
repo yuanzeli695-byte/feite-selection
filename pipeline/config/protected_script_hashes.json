@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "feiteProtectedScriptHashes/v1",
+  "approvedPair": {
+    "bridge": "2.1.3",
+    "collector": "0.4.6.4",
+    "runner": "0.3.8.13"
+  },
+  "files": {
+    "bridge": {
+      "path": "console/browser_bridge_v2.user.js",
+      "sha256": "0BEA21250B8342AA7249D035D6EDB3A1D1F49775C53DF343B110C1BBADE6CC82"
+    },
+    "collector": {
+      "path": "pipeline/scripts/sellersprite_traffic_collector_v0.4.6.4_zh_no_data_fast_fail.user.js",
+      "sha256": "9ED48DFAFC4E71CCB36A2982EC48D99BAA75372BC809DE19752DEF36D3A1D7D3"
+    },
+    "runner": {
+      "path": "pipeline/scripts/sellersprite_integrated_runner_v0.3.8.13_zh_keepa_passive_30s.user.js",
+      "sha256": "0350FC1CDCA11E36FF3318FA947DED835C1D2B9DDEBC0CC7D9EDA15D5EC87E0C"
+    }
+  }
+}

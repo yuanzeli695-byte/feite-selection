@@ -1,4 +1,8 @@
 # Runtime state and local secrets
+.runtime/
+__pycache__/
+*.pyc
+.pytest_cache/
 console/data/
 console/.codex_work/
 console/node_modules/
@@ -35,3 +39,4 @@ pipeline/**/.pytest_cache/
 *.pfx
 *.cookie
 
+# Preserve byte-for-byte hashes for the approved browser scripts on Windows.

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "sellerSpriteMcpHybridPolicy/v1",
+  "policyVersion": "0.3.1",
+  "mode": "shadow",
+  "marketplace": "US",
+  "outboundMcpEnabled": false,
+  "finalAuthority": false,
+  "officialMonthlyLimit": 15000,
+  "operationalMonthlyCap": 12000,
+  "defaultRunBudget": 300,
+  "warningThresholdsPct": [75, 80, 90, 95],
+  "dailyQuota": {
+    "timezone": "Asia/Shanghai",
+    "hardLimit": 500,
+    "allowEmergencyByDefault": false,
+    "pools": {
+      "primary": 300,
+      "conditional": 100,
+      "emergency": 100
+    }
+  },
+  "fieldSourcePriority": {
+    "title": ["asin_detail", "keepa_info"],
+    "brand": ["asin_detail", "keepa_info"],
+    "price": ["asin_detail", "keepa_info"],
+    "rating": ["asin_detail", "keepa_info"],
+    "reviews": ["asin_detail", "keepa_info"],
+    "imageUrl": ["asin_detail", "keepa_info"],
+    "parentAsin": ["asin_detail", "keepa_info"],
+    "dimensions": ["asin_detail", "keepa_info"],
+    "priceTrendClass": ["asin_sales_trend", "keepa_info"],
+    "pricePointCount": ["asin_sales_trend", "keepa_info"]
+  },
+  "tools": {
+    "competitor_lookup": {
+      "enabled": false,
+      "validationStatus": "blocked",
+      "reservationEnabled": false,
+      "testReservationEnabled": false,
+      "maxAsinsPerCall": 40,
+      "ttlHours": 6,
+      "rankingPriority": 0,
+      "roles": ["audit_only"],
+      "finalGateEligible": false
+    },
+    "keepa_info": {
+      "enabled": true,
+      "validationStatus": "validated_shadow",
+      "reservationEnabled": true,
+      "testReservationEnabled": true,
+      "maxAsinsPerCall": 1,
+      "ttlHours": 6,
+      "rankingPriority": 100,
+      "roles": ["ranking_shadow", "gate_d_shadow", "gate_e_shadow", "gate_f_shadow"],
+      "finalGateEligible": false
+    },
+    "traffic_extend": {
+      "enabled": false,
+      "validationStatus": "blocked",
+      "reservationEnabled": false,
+      "testReservationEnabled": false,
+      "maxAsinsPerCall": 20,
+      "ttlHours": 24,
+      "rankingPriority": 0,
+      "roles": ["audit_only"],
+      "finalGateEligible": false
+    },
+    "product_research": {
+      "enabled": true,
+      "validationStatus": "pending",
+      "reservationEnabled": false,
+      "testReservationEnabled": true,
+      "allowZeroAsins": true,
+      "maxAsinsPerCall": 0,
+      "ttlHours": 6,
+      "rankingPriority": 40,
+      "roles": ["discovery_shadow_pending"],
+      "finalGateEligible": false
+    },
+    "asin_detail": {
+      "enabled": true,
+      "validationStatus": "pending",
+      "reservationEnabled": false,
+      "testReservationEnabled": true,
+      "maxAsinsPerCall": 1,
+      "ttlHours": 6,
+      "rankingPriority": 90,
+      "roles": ["ranking_shadow_pending"],
+      "finalGateEligible": false
+    },
+    "asin_sales_trend": {
+      "enabled": true,
+      "validationStatus": "pending",
+      "reservationEnabled": false,
+      "testReservationEnabled": true,
+      "maxAsinsPerCall": 1,
+      "ttlHours": 6,
+      "rankingPriority": 80,
+      "roles": ["ranking_shadow_pending"],
+      "finalGateEligible": false
+    },
+    "traffic_listing_stat": {
+      "enabled": true,
+      "validationStatus": "pending",
+      "reservationEnabled": false,
+      "testReservationEnabled": true,
+      "maxAsinsPerCall": 1,
+      "ttlHours": 24,
+      "rankingPriority": 70,
+      "roles": ["traffic_shadow_pending"],
+      "finalGateEligible": false
+    }
+  }
+}

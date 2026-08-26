@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "sellerSpriteMcpPacketResultFixtures/v1",
+  "templates": {
+    "partial": {
+      "schemaVersion": "sellerSpriteMcpPacketResult/v1",
+      "workflowId": "__WORKFLOW_ID__",
+      "runId": "__RUN_ID__",
+      "packetId": "__PACKET_ID__",
+      "requestHash": "__REQUEST_HASH__",
+      "targetAsin": "__TARGET_ASIN__",
+      "actualAsin": "__TARGET_ASIN__",
+      "tool": {
+        "name": "keepa_info",
+        "version": "fixture-v1"
+      },
+      "status": "partial",
+      "startedAt": "2026-07-29T02:00:00Z",
+      "completedAt": "2026-07-29T02:00:02Z",
+      "rawResponse": {
+        "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "capturedAt": "2026-07-29T02:00:01Z",
+        "expiresAt": "2026-07-29T08:00:01Z"
+      },
+      "fields": {
+        "asin": "__TARGET_ASIN__",
+        "title": "Fixture product",
+        "brand": "Fixture",
+        "price": 19.99,
+        "rating": 4.8,
+        "reviews": 12,
+        "variations": null,
+        "imageUrl": "https://images.example.invalid/fixture.jpg",
+        "categoryPath": null,
+        "dimensions": null,
+        "packageDimensions": null,
+        "itemWeight": null,
+        "packageWeight": null,
+        "parentAsin": null,
+        "priceTrendClass": "stable",
+        "pricePointCount": 30
+      },
+      "fieldProvenance": {
+        "title": {"sourceTool": "keepa_info", "sourcePath": "data.title", "semantics": "shadow_advisory"},
+        "brand": {"sourceTool": "keepa_info", "sourcePath": "data.brand", "semantics": "shadow_advisory"},
+        "price": {"sourceTool": "keepa_info", "sourcePath": "data.price", "semantics": "shadow_advisory"},
+        "rating": {"sourceTool": "keepa_info", "sourcePath": "data.rating", "semantics": "shadow_advisory"},
+        "reviews": {"sourceTool": "keepa_info", "sourcePath": "data.reviews", "semantics": "shadow_advisory"},
+        "imageUrl": {"sourceTool": "keepa_info", "sourcePath": "data.imageUrl", "semantics": "shadow_advisory"},
+        "priceTrendClass": {"sourceTool": "keepa_info", "sourcePath": "data.priceTrendClass", "semantics": "shadow_advisory"},
+        "pricePointCount": {"sourceTool": "keepa_info", "sourcePath": "data.pricePointCount", "semantics": "shadow_advisory"}
+      },
+      "missingFields": [
+        "variations",
+        "categoryPath",
+        "dimensions",
+        "packageDimensions",
+        "itemWeight",
+        "packageWeight",
+        "parentAsin"
+      ],
+      "finalAuthority": false
+    },
+    "failed": {
+      "schemaVersion": "sellerSpriteMcpPacketResult/v1",
+      "workflowId": "__WORKFLOW_ID__",
+      "runId": "__RUN_ID__",
+      "packetId": "__PACKET_ID__",
+      "requestHash": "__REQUEST_HASH__",
+      "targetAsin": "__TARGET_ASIN__",
+      "actualAsin": null,
+      "tool": {
+        "name": "keepa_info",
+        "version": "fixture-v1"
+      },
+      "status": "failed",
+      "startedAt": "2026-07-29T02:01:00Z",
+      "completedAt": "2026-07-29T02:01:02Z",
+      "rawResponse": {
+        "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "capturedAt": "2026-07-29T02:01:01Z"
+      },
+      "fields": {},
+      "fieldProvenance": {},
+      "missingFields": [
+        "title",
+        "brand",
+        "price",
+        "rating",
+        "reviews",
+        "variations",
+        "imageUrl",
+        "categoryPath",
+        "dimensions",
+        "packageDimensions",
+        "itemWeight",
+        "packageWeight",
+        "parentAsin",
+        "priceTrendClass",
+        "pricePointCount"
+      ],
+      "error": {
+        "code": "provider_timeout",
+        "message": "fixture timeout",
+        "retryable": true
+      },
+      "finalAuthority": false
+    }
+  }
+}
