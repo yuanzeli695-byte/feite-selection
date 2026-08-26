@@ -141,3 +141,29 @@
   `progress.md` (this record).
 - Rollback point: revert the documentation/installer commit after stopping the
   client; do not alter the protected browser scripts.
+
+## 2026-08-26 - Clean checkout installation rehearsal
+
+### What was done
+
+- Exported the current Git commit into a new temporary directory with no `.git`,
+  `.runtime`, database, history, or node_modules state.
+- Ran the normal `install-client.ps1` flow in that clean directory and confirmed
+  it created the local runtime lease directories and Codex module junction.
+- Ran `verify-client.ps1 -NoServiceCheck` from the clean directory; all required
+  files, strict preflight checks, and approved script hashes passed.
+
+### Testing
+
+- Clean checkout install: passed.
+- Clean checkout verification: passed (`ok: true`, strict history count `0`).
+- The rehearsal used the current approved Runner `0.3.8.13` and did not alter
+  the existing `8788` listener.
+
+### Notes
+
+- Temporary rehearsal directory was created outside the repository and contains
+  no customer data; it can be removed after review.
+- This closes the from-zero package check. Remaining live steps for a customer
+  are account login, browser-script pairing, one-ASIN smoke, and paired real-ASIN
+  evidence; they cannot be automated from source control.
