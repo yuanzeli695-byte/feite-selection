@@ -37,6 +37,9 @@ strict A-F replay and final workbook acceptance checks.
 
 ## Portable Windows startup
 
+第一次使用请直接阅读中文新手步骤：[新手安装与首次运行](docs/beginner-quickstart-zh.md)。
+下面是同一流程的简版命令。
+
 On a fresh private checkout, run once in PowerShell:
 
 ```powershell

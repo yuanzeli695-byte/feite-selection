@@ -59,7 +59,7 @@ $NodeVersion = (& $NodePath '--version').Trim().TrimStart('v')
 if ($LASTEXITCODE -ne 0 -or [version]$NodeVersion -lt [version]'18.0') { throw "需要 Node.js 18 或更高版本，当前为 $NodeVersion。" }
 
 if (-not (Test-Path -LiteralPath (Join-Path $CodexNodeModules '@oai\artifact-tool\package.json'))) {
-  throw "未找到 Codex 自带的 @oai/artifact-tool：$CodexNodeModules。请先完成 Codex 桌面端运行时安装。"
+  throw "未找到 Codex 自带的 @oai/artifact-tool：$CodexNodeModules。请先打开 Codex Desktop 完成本机运行时初始化，再重新运行 install-client.ps1；不要下载替代包。"
 }
 if (-not (Test-Path -LiteralPath $PipelineNodeModules)) {
   New-Item -ItemType Junction -Path $PipelineNodeModules -Target $CodexNodeModules | Out-Null

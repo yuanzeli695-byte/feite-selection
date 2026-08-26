@@ -3,6 +3,9 @@
 This document describes the supported Windows deployment for a fresh checkout
 of the private `feite-selection` repository.
 
+For a step-by-step Chinese walkthrough, see
+[新手安装与首次运行](beginner-quickstart-zh.md).
+
 ## What is portable
 
 The checkout carries the console, strict-selection source, read-only

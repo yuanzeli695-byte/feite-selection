@@ -116,3 +116,28 @@
 
 - No live production browser session, Bridge pairing, or existing `8788`
   service was stopped or modified during this verification.
+
+## 2026-08-26 - Beginner deployment handoff
+
+### What was done
+
+- Added a Chinese from-zero quickstart covering private Git clone, Codex
+  runtime prerequisites, installation, self-check, fixed-port startup, browser
+  pairing, first single-ASIN smoke, troubleshooting, and rollback.
+- Linked the quickstart from the root README and portable deployment guide.
+- Improved the missing-artifact-tool installer error so a new operator gets an
+  actionable Codex Desktop initialization instruction.
+
+### Testing
+
+- Clean-checkout installation rehearsal and final repository verification are
+  recorded below after the new guide is committed.
+
+### Notes
+
+- Files changed this round: `docs/beginner-quickstart-zh.md` (new operator
+  guide), `README.md` (quickstart link), `docs/portable-client-deployment.md`
+  (quickstart link), `install-client.ps1` (actionable dependency error), and
+  `progress.md` (this record).
+- Rollback point: revert the documentation/installer commit after stopping the
+  client; do not alter the protected browser scripts.
