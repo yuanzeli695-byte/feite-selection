@@ -125,6 +125,13 @@ Get-CimInstance Win32_Process -Filter "ProcessId=$listenerPid" |
 先阅读输出中的具体检查项。哈希、严格预检、依赖或版本任一失败，都不能
 继续正式选品；不要删除校验、替换脚本或跳过预检。
 
+### `install-client.ps1` 提示 python.exe 是商店占位别名
+
+PATH 里的 `python.exe` 指向 Microsoft Store 的占位程序，而不是真实解释器。
+在“设置 > 应用执行别名”中关闭 `python.exe` / `python3.exe`，或安装
+python.org 的 3.11 及以上版本后重新运行安装器。安装器也会自动尝试
+`py -3` 启动器，装好 Python 启动器后通常无需额外配置。
+
 ### `doctor.ps1` 报“Excel 私有依赖”失败
 
 按提示先打开 Codex Desktop，等本机运行时初始化完成后重新运行

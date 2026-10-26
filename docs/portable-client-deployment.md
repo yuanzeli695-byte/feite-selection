@@ -64,6 +64,21 @@ stopping it.
 the bundled strict preflight against the checkout and compares SHA-256 hashes
 against `pipeline/config/protected_script_hashes.json`.
 
+Before the first start on a new machine, run the availability doctor. It
+verifies capability rather than file presence: real Python imports, a real
+`import("@oai/artifact-tool")` against the required exports, protected script
+hashes, the strict preflight, directory and SQLite writability, and whether
+port `8788` belongs to this checkout. Every failing check prints one `->`
+remediation hint; exit code `2` means a blocking problem remains.
+
+```powershell
+.\doctor.ps1                 # readable report
+.\doctor.ps1 -Json           # machine-readable feiteClientDoctor/v1
+.\doctor.ps1 -NoServiceCheck # client is not running yet
+```
+
+The doctor is diagnostic only; `verify-client.ps1` remains the formal gate.
+
 ## Browser pairing
 
 Install the Bridge userscript served by the local console, then pair it with
@@ -107,6 +122,10 @@ is the documented manual-upload rollback; it is not a way to skip validation.
 - **Hash mismatch**: reinstall the exact approved browser scripts from this
   private checkout and run `verify-client.ps1` again. Do not edit the scripts
   in place.
+- **Doctor failures**: run `.\doctor.ps1` on the client; each failing check
+  prints a `->` remediation hint, and `-Json` emits a `feiteClientDoctor/v1`
+  report for automation. Fix the reported capability problem instead of
+  deleting checks or swapping dependencies.
 - **Excel generation blocked**: inspect `.runtime/console.stderr.log`, then
   rerun verification. A Runner JSON that has not passed the existing
   SHA-256/direct-import contract remains blocked by design.

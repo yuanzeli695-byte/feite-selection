@@ -25,6 +25,22 @@ function Find-Executable([string[]]$Names) {
   return $null
 }
 
+function Test-StoreAlias([string]$Path) {
+  return [bool]$Path -and ($Path -like '*\WindowsApps\*')
+}
+
+function Resolve-PythonPath {
+  if (Test-Path -LiteralPath $CodexPython) { return $CodexPython }
+  $Candidate = Find-Executable @('python.exe', 'python')
+  if ($Candidate -and -not (Test-StoreAlias $Candidate)) { return $Candidate }
+  $PyLauncher = Find-Executable @('py.exe', 'py')
+  if ($PyLauncher) {
+    $Launched = & $PyLauncher '-3' '-c' 'import sys; print(sys.executable)' 2>$null
+    if ($LASTEXITCODE -eq 0 -and $Launched) { return ([string]($Launched | Select-Object -First 1)).Trim() }
+  }
+  return $null
+}
+
 foreach ($Path in @(
   $RuntimeRoot,
   (Join-Path $ConsoleRoot 'data'),
@@ -39,12 +55,12 @@ if (-not (Test-Path -LiteralPath $HistoryPath)) {
   '{"schemaVersion":"strictQualifiedHistory/v1","count":0,"asins":[]}' | Set-Content -LiteralPath $HistoryPath -Encoding UTF8
 }
 
-$PythonPath = if (Test-Path -LiteralPath $CodexPython) { $CodexPython } else { Find-Executable @('python.exe', 'python') }
-if (-not $PythonPath) {
-  $PyLauncher = Find-Executable @('py.exe', 'py')
-  if ($PyLauncher) { $PythonPath = (& $PyLauncher '-3' '-c' 'import sys; print(sys.executable)').Trim() }
-}
+$PythonPath = Resolve-PythonPath
 if (-not $PythonPath -or -not (Test-Path -LiteralPath $PythonPath)) {
+  $StoreAlias = Find-Executable @('python.exe', 'python')
+  if ($StoreAlias -and (Test-StoreAlias $StoreAlias)) {
+    throw "PATH 中的 python.exe 是 Windows 商店占位别名，不是真实解释器：$StoreAlias`n请在“设置 > 应用执行别名”中关闭 python.exe/python3.exe，或安装 python.org 版本后重新运行 install-client.ps1。"
+  }
   throw '未找到 Python 3。请安装 Python 3.11 或更高版本后重新运行 install-client.ps1。'
 }
 
@@ -53,10 +69,23 @@ if (-not $NodePath) {
   throw '未找到 Node.js。请安装 Node.js 18 或更高版本后重新运行 install-client.ps1。'
 }
 
-$PythonVersion = (& $PythonPath '-c' 'import sys; print(".".join(map(str, sys.version_info[:3])))').Trim()
-if ($LASTEXITCODE -ne 0 -or [version]$PythonVersion -lt [version]'3.11') { throw "需要 Python 3.11 或更高版本，当前为 $PythonVersion。" }
-$NodeVersion = (& $NodePath '--version').Trim().TrimStart('v')
-if ($LASTEXITCODE -ne 0 -or [version]$NodeVersion -lt [version]'18.0') { throw "需要 Node.js 18 或更高版本，当前为 $NodeVersion。" }
+$PythonVersion = ''
+try { $PythonVersion = (& $PythonPath '-c' 'import sys; print("%d.%d" % sys.version_info[:2])' 2>$null).Trim() } catch { $PythonVersion = '' }
+if (-not $PythonVersion) {
+  throw "无法运行 Python: $PythonPath。请确认它是 python.org 安装的 3.11 或更高版本。"
+}
+$PythonParts = $PythonVersion.Split('.')
+if ([int]$PythonParts[0] -lt 3 -or (([int]$PythonParts[0] -eq 3) -and ([int]$PythonParts[1] -lt 11))) {
+  throw "需要 Python 3.11 或更高版本，当前为 $PythonVersion。"
+}
+$NodeVersion = ''
+try { $NodeVersion = (& $NodePath '--version' 2>$null).Trim().TrimStart('v') } catch { $NodeVersion = '' }
+if (-not $NodeVersion) {
+  throw "无法运行 Node.js: $NodePath。请安装 Node.js 18 或更高版本后重试。"
+}
+if ([int]$NodeVersion.Split('.')[0] -lt 18) {
+  throw "需要 Node.js 18 或更高版本，当前为 v$NodeVersion。"
+}
 
 if (-not (Test-Path -LiteralPath (Join-Path $CodexNodeModules '@oai\artifact-tool\package.json'))) {
   throw "未找到 Codex 自带的 @oai/artifact-tool：$CodexNodeModules。请先打开 Codex Desktop 完成本机运行时初始化，再重新运行 install-client.ps1；不要下载替代包。"
