@@ -50,8 +50,10 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 The installer creates empty runtime directories and an empty strict-history
 file, then installs the two Python packages needed for workbook and image
-handling. It never imports another machine's database, pairing code, browser
-profile, or credentials. Start and stop the service with:
+handling into an isolated environment at `.runtime/venv` (it falls back to the
+base interpreter only when that interpreter cannot create a venv). It never
+imports another machine's database, pairing code, browser profile, or
+credentials. Start and stop the service with:
 
 ```powershell
 .\start-client.ps1                 # http://127.0.0.1:8788

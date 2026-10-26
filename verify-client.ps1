@@ -28,7 +28,10 @@ if (Test-Path -LiteralPath $ToolchainPath) {
   if ($Toolchain.python -and (Test-Path -LiteralPath $Toolchain.python)) { $PythonPath = $Toolchain.python }
   if ($Toolchain.node -and (Test-Path -LiteralPath $Toolchain.node)) { $NodePath = $Toolchain.node }
 }
-if (-not $PythonPath) { $PythonPath = Find-Executable @('python.exe', 'python') }
+if (-not $PythonPath) {
+  $VenvPython = Join-Path $RuntimeRoot 'venv\Scripts\python.exe'
+  $PythonPath = if (Test-Path -LiteralPath $VenvPython) { $VenvPython } else { Find-Executable @('python.exe', 'python') }
+}
 if (-not $NodePath) { $NodePath = Find-Executable @('node.exe', 'node') }
 $Checks = [ordered]@{}
 $Checks.python = [bool]$PythonPath -and (Test-Path -LiteralPath $PythonPath)

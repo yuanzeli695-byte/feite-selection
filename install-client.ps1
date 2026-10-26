@@ -97,12 +97,41 @@ if (-not (Test-Path -LiteralPath (Join-Path $PipelineNodeModules '@oai\artifact-
   throw "pipeline\node_modules 已存在但不包含 @oai/artifact-tool；未覆盖该目录，请人工确认后重试。"
 }
 
+$VenvRoot = Join-Path $RuntimeRoot 'venv'
+$VenvPython = Join-Path $VenvRoot 'Scripts\python.exe'
+$PythonRuntime = $PythonPath
+$Isolation = 'none'
+
+if (-not $SkipDependencyInstall -and -not (Test-Path -LiteralPath $VenvPython)) {
+  Write-Host "正在创建依赖隔离环境: $VenvRoot"
+  & $PythonPath '-m' 'venv' $VenvRoot 2>&1 | Out-Null
+  if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $VenvPython)) {
+    $SystemPython = Find-Executable @('python.exe', 'python')
+    if ($SystemPython -and -not (Test-StoreAlias $SystemPython) -and $SystemPython -ne $PythonPath) {
+      Write-Host "当前 Python 无法创建 venv，改用系统 Python: $SystemPython"
+      & $SystemPython '-m' 'venv' $VenvRoot 2>&1 | Out-Null
+    }
+  }
+}
+if (Test-Path -LiteralPath $VenvPython) {
+  $VenvVersion = ''
+  try { $VenvVersion = (& $VenvPython '-c' 'import sys; print("%d.%d" % sys.version_info[:2])' 2>$null).Trim() } catch { $VenvVersion = '' }
+  $VenvParts = $VenvVersion.Split('.')
+  if (-not $VenvVersion -or [int]$VenvParts[0] -lt 3 -or (([int]$VenvParts[0] -eq 3) -and ([int]$VenvParts[1] -lt 11))) {
+    throw "venv 解释器版本不满足要求: $VenvVersion ($VenvPython)。请删除 .runtime\venv 后改用 Python 3.11+ 重跑安装器。"
+  }
+  $PythonRuntime = $VenvPython
+  $Isolation = 'venv'
+} elseif (-not $SkipDependencyInstall) {
+  Write-Warning "无法创建 venv（解释器可能缺少 venv 模块）。退回直接安装到 $PythonPath。"
+}
+
 if (-not $SkipDependencyInstall) {
-  $DependencyCheck = & $PythonPath '-c' 'import openpyxl, PIL' 2>&1
+  $DependencyCheck = & $PythonRuntime '-c' 'import openpyxl, PIL' 2>&1
   if ($LASTEXITCODE -ne 0) {
     if (-not (Test-Path -LiteralPath $RequirementsPath)) { throw "缺少依赖清单: $RequirementsPath" }
-    Write-Host '正在安装 Python 运行依赖（openpyxl、Pillow）...'
-    & $PythonPath '-m' 'pip' 'install' '--disable-pip-version-check' '-r' $RequirementsPath
+    Write-Host "正在安装 Python 运行依赖（openpyxl、Pillow）到 $PythonRuntime ..."
+    & $PythonRuntime '-m' 'pip' 'install' '--disable-pip-version-check' '-r' $RequirementsPath
     if ($LASTEXITCODE -ne 0) { throw 'Python 依赖安装失败，未启动控制台。' }
   }
 }
@@ -112,14 +141,22 @@ $Toolchain = [ordered]@{
   projectRoot = $Root
   consoleRoot = $ConsoleRoot
   pipelineRoot = $PipelineRoot
-  python = $PythonPath
+  python = $PythonRuntime
+  basePython = $PythonPath
+  pythonIsolation = $Isolation
   node = $NodePath
   artifactToolNodeModules = $CodexNodeModules
   installedAt = [DateTime]::UtcNow.ToString('o')
 }
+if ($Isolation -eq 'venv') { $Toolchain['venvRoot'] = $VenvRoot }
 $Toolchain | ConvertTo-Json -Depth 3 | Set-Content -LiteralPath $ToolchainPath -Encoding UTF8
 
-Write-Host "安装完成。Python: $PythonPath"
+Write-Host "安装完成。Python: $PythonRuntime"
+if ($Isolation -eq 'venv') {
+  Write-Host "依赖隔离: $VenvRoot（删除该目录后重跑安装器即可重建）"
+} else {
+  Write-Host '依赖隔离: 未启用（依赖安装在基础解释器中）'
+}
 Write-Host "Node.js: $NodePath"
 Write-Host "Excel 组件: $CodexNodeModules"
 Write-Host '下一步运行 .\start-client.ps1，然后打开 http://127.0.0.1:8788。'

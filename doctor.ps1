@@ -73,7 +73,8 @@ if ($MissingFiles) {
   Add-Check 'files' '关键文件' 'ok' 'server.py / preflight.py / 工作簿构建器 / direct import / 哈希清单齐全'
 }
 
-$PythonInfo = Resolve-ToolchainPath 'python' $CodexPython
+$PythonFallback = if (Test-Path -LiteralPath (Join-Path $RuntimeRoot 'venv\Scripts\python.exe')) { Join-Path $RuntimeRoot 'venv\Scripts\python.exe' } else { $CodexPython }
+$PythonInfo = Resolve-ToolchainPath 'python' $PythonFallback
 $NodeInfo = Resolve-ToolchainPath 'node' $CodexNode
 $PythonPath = $PythonInfo.path
 $NodePath = $NodeInfo.path

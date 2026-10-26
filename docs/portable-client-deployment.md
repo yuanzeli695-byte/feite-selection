@@ -34,8 +34,10 @@ The installer:
 - prefers the current user's Codex runtime when present;
 - checks for Codex's private `@oai/artifact-tool` module used by the workbook
   builder and creates a local `pipeline/node_modules` junction to that runtime;
-- installs `pipeline/requirements.txt` only when `openpyxl` or `Pillow` is
-  missing;
+- creates an isolated virtual environment at `.runtime/venv` and installs
+  `pipeline/requirements.txt` into it when `openpyxl` or `Pillow` is missing
+  (falls back to the base interpreter only when the interpreter cannot create
+  a venv);
 - creates empty `console/data`, `pipeline/runs`, `pipeline/cache`, and
   `pipeline/history` folders;
 - creates an empty `strictQualifiedHistory/v1` registry when no history exists.

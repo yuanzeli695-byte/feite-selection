@@ -31,9 +31,10 @@ Set-ExecutionPolicy -Scope Process Bypass
 GitHub 登录提示由 Git Credential Manager 或浏览器完成。不要把密码、令牌
 或 SellerSprite 密钥粘贴到聊天、Issue 或仓库文件中。
 
-安装器会创建空的运行目录和严格历史文件，安装 `openpyxl`、`Pillow`，并
-把 `pipeline/node_modules` 安全地连接到当前 Codex 运行时。它不会导入其他
-机器的批次、账号、浏览器会话或配对码。
+安装器会创建空的运行目录和严格历史文件，在 `.runtime\venv` 这个独立虚拟环境里
+安装 `openpyxl`、`Pillow`，并把 `pipeline/node_modules` 安全地连接到当前 Codex
+运行时。只有在该解释器无法创建 venv 时，才会退回把依赖装进基础解释器并给出
+警告。它不会导入其他机器的批次、账号、浏览器会话或配对码。
 
 如果提示缺少 `@oai/artifact-tool`，先打开 Codex Desktop 并等待初始化完成，
 再重新执行安装器；不要下载来历不明的替代包，也不要使用

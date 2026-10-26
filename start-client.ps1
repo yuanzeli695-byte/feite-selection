@@ -34,7 +34,10 @@ if (Test-Path -LiteralPath $ToolchainPath) {
     if ($Toolchain.node -and (Test-Path -LiteralPath $Toolchain.node)) { $NodePath = $Toolchain.node }
   } catch { }
 }
-if (-not $PythonPath) { $PythonPath = Find-Executable @('python.exe', 'python') }
+if (-not $PythonPath) {
+  $VenvPython = Join-Path $RuntimeRoot 'venv\Scripts\python.exe'
+  $PythonPath = if (Test-Path -LiteralPath $VenvPython) { $VenvPython } else { Find-Executable @('python.exe', 'python') }
+}
 if (-not $NodePath) { $NodePath = Find-Executable @('node.exe', 'node') }
 if (-not $PythonPath -or -not (Test-Path -LiteralPath $PythonPath)) { throw '未找到 Python。先运行 install-client.ps1。' }
 if (-not $NodePath) { throw '未找到 Node.js。先运行 install-client.ps1。' }
