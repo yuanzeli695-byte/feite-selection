@@ -95,7 +95,8 @@ if (-not $PythonPath) {
     $PythonParts = $PythonVersion.Split('.')
     $PythonOk = ([int]$PythonParts[0] -gt 3) -or (([int]$PythonParts[0] -eq 3) -and ([int]$PythonParts[1] -ge 11))
     if ($PythonOk) {
-      Add-Check 'python' 'Python 解释器' 'ok' "$PythonVersion ($($PythonInfo.source)) $PythonPath"
+      $RuntimeLabel = if ($PythonPath -like '*\.runtime\venv\*') { 'venv' } else { 'base' }
+      Add-Check 'python' 'Python 解释器' 'ok' "$PythonVersion ($($PythonInfo.source), $RuntimeLabel) $PythonPath"
     } else {
       Add-Check 'python' 'Python 解释器' 'fail' "版本过低: $PythonVersion ($PythonPath)" '需要 3.11 或更高版本。'
     }
@@ -200,6 +201,44 @@ if (Test-Path -LiteralPath $HashManifestPath) {
   }
 } else {
   Add-Check 'userscriptHashes' '受保护脚本哈希' 'fail' '缺少哈希清单' '重新 clone 仓库。'
+}
+
+if (-not $PythonOk -or -not (Test-Path -LiteralPath $PreflightPath) -or -not (Test-Path -LiteralPath $HashManifestPath)) {
+  Add-Check 'approval' '批准脚本一致性' 'skip' '跳过：缺少 Python、预检脚本或批准清单'
+} else {
+  $ApprovalVersions = $null
+  try {
+    $ApprovalManifest = Get-Content -Raw -LiteralPath $HashManifestPath -Encoding UTF8 | ConvertFrom-Json
+    $ApprovalVersions = @{
+      collector = [string]$ApprovalManifest.approvedPair.collector
+      runner = [string]$ApprovalManifest.approvedPair.runner
+    }
+  } catch { $ApprovalVersions = $null }
+
+  $PreflightProbe = 'import importlib.util, json, sys; spec = importlib.util.spec_from_file_location("preflight_probe", sys.argv[1]); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); print(json.dumps({k: v[1] for k, v in mod.APPROVED_SCRIPTS.items()}))'
+  $PreflightVersions = $null
+  try {
+    $ProbeOutput = & $PythonPath '-c' $PreflightProbe $PreflightPath 2>$null
+    if ($LASTEXITCODE -eq 0 -and $ProbeOutput) { $PreflightVersions = ($ProbeOutput -join "`n") | ConvertFrom-Json }
+  } catch { $PreflightVersions = $null }
+
+  if (-not $ApprovalVersions) {
+    Add-Check 'approval' '批准脚本一致性' 'skip' '跳过：批准清单无法读取'
+  } elseif (-not $PreflightVersions) {
+    Add-Check 'approval' '批准脚本一致性' 'skip' '跳过：无法读取预检脚本的批准版本'
+  } else {
+    $Drift = @()
+    foreach ($Role in @('collector', 'runner')) {
+      $Expected = [string]$ApprovalVersions[$Role]
+      $Actual = [string]$PreflightVersions.$Role
+      if ($Actual -and $Actual -ne $Expected) { $Drift += "$Role $Actual -> $Expected" }
+    }
+    if ($Drift.Count -eq 0) {
+      Add-Check 'approval' '批准脚本一致性' 'ok' "严格预检与批准清单一致 (collector $($ApprovalVersions['collector']) / runner $($ApprovalVersions['runner']))"
+    } else {
+      Add-Check 'approval' '批准脚本一致性' 'warn' ("严格预检版本落后: " + ($Drift -join '; ')) '已知待整改项（P0-2 第二步）：确认正式项目实际安装的脚本版本后，把 pipeline\scripts\preflight.py 的 APPROVED_SCRIPTS 对齐到批准清单。'
+    }
+  }
 }
 
 if (-not $PythonOk -or -not (Test-Path -LiteralPath $PreflightPath)) {

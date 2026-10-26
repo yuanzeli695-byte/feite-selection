@@ -153,8 +153,9 @@ components (no Codex, no Python dependencies) and is safe to run in CI.
 
 On a client machine, run `.\doctor.ps1` before these checks: it separates
 deployment capability failures (private workbook package, SQLite writes, port
-ownership) from repository test failures. `verify-client.ps1` remains the
-formal gate; the doctor never replaces it.
+ownership) from repository test failures, and reports approval drift between
+the strict preflight and the protected manifest. `verify-client.ps1` remains
+the formal gate; the doctor never replaces it.
 
 The bundled `pipeline/scripts/preflight.py` is the same read-only strict
 preflight used by the workflow. A passing package check does not authorize a
