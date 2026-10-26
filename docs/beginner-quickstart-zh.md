@@ -144,6 +144,30 @@ python.org 的 3.11 及以上版本后重新运行安装器。安装器也会自
 导出记录确实生成了 `.xlsx`、`.csv` 或 `.tsv`。站点失败时使用人工回退上传，
 不要伪造导出文件。
 
+## 换机器时迁移严格合格历史
+
+`pipeline/history/` 和 `console/data/` 不在 Git 里，新机器装完是空的。需要沿用
+旧机器已经筛过的 ASIN 去重记录时，先在旧机器导出，再在新机器导入：
+
+```powershell
+# 旧机器（先停止控制台）
+.\stop-client.ps1
+.\export-client-history.ps1
+
+# 新机器（已运行 install-client.ps1，保持控制台停止）
+.\import-client-history.ps1 -Archive .\feite-client-history-<时间戳>.zip -DryRun
+.\import-client-history.ps1 -Archive .\feite-client-history-<时间戳>.zip
+```
+
+- 默认只迁移 `pipeline/history/strict_qualified_asins.json`；要连同批次数据库
+  一起迁移时，导出和导入两边都加 `-IncludeConsoleState`。
+- 导出时会把每个文件的 SHA-256 写进 `manifest.json`，导入时逐个核对；控制台
+  运行中两个脚本都会拒绝执行，先运行 `.\stop-client.ps1`。
+- 已存在的文件默认不覆盖；确认覆盖时加 `-Force`，被覆盖的文件会先备份为
+  `*.pre-import-<时间戳>.bak`。
+- 配对码 `browser_pairing.json` 永远不会被打包或恢复。
+- 导入完成后运行 `.\doctor.ps1` 和 `.\verify-client.ps1 -NoServiceCheck` 复核。
+
 ## 安全与回滚
 
 仓库保持 Private，不要添加未批准的协作者。批次数据库、运行历史、浏览器

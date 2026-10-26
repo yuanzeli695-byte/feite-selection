@@ -96,6 +96,31 @@ The first overview after startup may show a conservative preflight state while
 the read-only check runs. A real batch is still blocked unless the full strict
 preflight and the existing A-F acceptance evidence pass.
 
+## History migration
+
+`pipeline/history/` and `console/data/` are excluded from Git, so a fresh
+checkout starts with an empty strict-qualified registry. To carry the registry
+to another machine, export it from the old client and import it on the new one.
+Both scripts refuse to run while the console is up. The exporter records a
+SHA-256 manifest for every file, the importer verifies it before writing, and
+neither ever packages `browser_pairing.json`.
+
+```powershell
+# old machine, console stopped
+.\stop-client.ps1
+.\export-client-history.ps1                        # strict history only
+.\export-client-history.ps1 -IncludeConsoleState   # also console.db / batches.json
+
+# new machine, after install-client.ps1, console stopped
+.\import-client-history.ps1 -Archive .\feite-client-history-<stamp>.zip -DryRun
+.\import-client-history.ps1 -Archive .\feite-client-history-<stamp>.zip
+```
+
+Existing files are only replaced with `-Force`, and each replaced file is first
+copied to `*.pre-import-<stamp>.bak`. An archive that contains console state is
+rejected unless `-IncludeConsoleState` is passed, because it carries another
+machine's batch records.
+
 ## Security boundary
 
 This repository is intended to remain private. Do not add collaborators,
