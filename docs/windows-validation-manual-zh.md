@@ -22,16 +22,13 @@
 
 ## 2. 代码版本要求（先确认，再执行）
 
-代码已推送到私有仓库 `origin/main`。首次验证的基线提交是：
+代码已推送到私有仓库 `origin/main`。当前基线提交是（包含 PowerShell 语法修复与 UTF-8 BOM）：
 
 ```
-f874514 feat: report approval drift in the availability doctor
-7f1a4b4 refactor: load approved scripts from the protected manifest
-e25ab0d feat: isolate Python dependencies in a runtime venv
-afb693b feat: add strict-history export and import for client migration
-d5ca1ec fix: harden installer interpreter detection on fresh Windows
-e04e018 feat: add availability doctor for client deployment
+218a7df fix: correct two PowerShell parse errors and add UTF-8 BOM
 ```
+
+更早的历史（doctor、venv、历史迁移等）都在 `main` 上，克隆即可获得，不必逐个核对。
 
 **获取代码**（仓库是私有的，需要当前 GitHub 账号已被授权；登录由 Git Credential Manager 或浏览器完成，**不要把任何 token 粘贴到聊天、文件或回执里**）：
 
@@ -51,7 +48,7 @@ git pull --ff-only
 
 **执行前必须确认**：
 
-1. `git log --oneline -1` 的输出以 `f874514` 开头。**首次验证必须精确等于该提交**；后续回归如果 HEAD 已经更新，先用 `git merge-base --is-ancestor f874514 HEAD` 确认基线仍被包含（返回 0 表示包含），并在回执中写明实际的 HEAD；
+1. `git merge-base --is-ancestor 218a7df HEAD` 的退出码为 0，表示已包含 `218a7df` 这个修复提交。首次验证请直接使用包含它的最新 `main`，并在回执中写明实际的 `git log --oneline -1`；
 2. `git status --short` 中没有已修改（`M`）的已跟踪文件。
 
 - 任一条不满足：**停止并在回执中说明**，不要自行 merge / rebase / reset / push，也不要手工拼凑文件。
@@ -397,5 +394,6 @@ Pop-Location
 
 | 日期 | 版本 | 说明 |
 |---|---|---|
+| 2026-10-26 | 1.2 | 基线前移到 `218a7df`（语法与编码修复）；版本校验改为 `merge-base --is-ancestor` |
 | 2026-10-26 | 1.1 | 补充 UTF-8 BOM 前置条件；语法检查覆盖 BOM、`$变量:` 与弯引号三类问题 |
 | 2026-10-26 | 1.0 | 初版：首次部署验证流程、安全红线、回执模板；基线提交 `f874514` |
