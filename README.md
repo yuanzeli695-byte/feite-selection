@@ -151,6 +151,11 @@ corepack pnpm --dir console run test:ui
 PowerShell parser and exits non-zero on syntax errors. It needs no runtime
 components (no Codex, no Python dependencies) and is safe to run in CI.
 
+`docs/windows-validation-manual-zh.md` is the end-to-end validation runbook for
+a zero-context operator or agent: environment snapshot, install, doctor,
+start/verify/stop, the artifact-tool probe, the history dry run, and the exact
+reply format to return.
+
 On a client machine, run `.\doctor.ps1` before these checks: it separates
 deployment capability failures (private workbook package, SQLite writes, port
 ownership) from repository test failures, and reports approval drift between
