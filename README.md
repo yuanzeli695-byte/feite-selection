@@ -59,6 +59,21 @@ profile, or credentials. Start and stop the service with:
 .\verify-client.ps1
 ```
 
+Before the first start on a new machine, run the availability doctor. Unlike
+the installer's existence checks, it verifies capability: real Python imports,
+a real `import("@oai/artifact-tool")` against the required exports, SHA-256 for
+the protected scripts, the strict preflight, directory and SQLite writability,
+and whether port `8788` belongs to this checkout. Every failing check prints a
+single `->` remediation hint.
+
+```powershell
+.\doctor.ps1                 # readable report; exit code 2 on blocking problems
+.\doctor.ps1 -Json           # machine-readable feiteClientDoctor/v1 report
+.\doctor.ps1 -NoServiceCheck # client is not running yet
+```
+
+The doctor is diagnostic only; `verify-client.ps1` remains the formal gate.
+
 `start-client.ps1` resolves Python and Node.js from the installed toolchain or
 the system PATH, sets the project root to this checkout's `pipeline/`, and
 records a PID lease in `.runtime/`. Formal browser operation is fixed to
@@ -98,6 +113,11 @@ python -m pytest pipeline/tests
 corepack pnpm --dir console run test:ui
 .\verify-client.ps1 -NoServiceCheck
 ```
+
+On a client machine, run `.\doctor.ps1` before these checks: it separates
+deployment capability failures (private workbook package, SQLite writes, port
+ownership) from repository test failures. `verify-client.ps1` remains the
+formal gate; the doctor never replaces it.
 
 The bundled `pipeline/scripts/preflight.py` is the same read-only strict
 preflight used by the workflow. A passing package check does not authorize a

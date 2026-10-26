@@ -41,6 +41,23 @@ GitHub 登录提示由 Git Credential Manager 或浏览器完成。不要把密�
 
 ## 启动与自检
 
+新电脑上第一次部署，先运行可用性自检：
+
+```powershell
+.\doctor.ps1
+```
+
+它逐项验证“能不能真的干活”：Python/Node 版本（会识别 Windows 商店的占位
+别名）、`openpyxl`/`Pillow` 能否导入、Codex 私有 Excel 组件
+`@oai/artifact-tool` 能否真实导入、受保护脚本的 SHA-256、严格预检、运行目录
+与 SQLite 是否可写，以及 8788 端口当前属于哪个进程。每项失败都会打印一条
+以 `->` 开头的修复提示。
+
+- `.\doctor.ps1 -Json`：输出机器可读的 `feiteClientDoctor/v1` 报告。
+- `.\doctor.ps1 -NoServiceCheck`：客户端尚未启动时跳过服务检查。
+
+退出码 `0` 表示没有阻断项（可能有警告），`2` 表示存在阻断问题。自检通过后再启动：
+
 ```powershell
 .\start-client.ps1
 .\verify-client.ps1
@@ -107,6 +124,12 @@ Get-CimInstance Win32_Process -Filter "ProcessId=$listenerPid" |
 
 先阅读输出中的具体检查项。哈希、严格预检、依赖或版本任一失败，都不能
 继续正式选品；不要删除校验、替换脚本或跳过预检。
+
+### `doctor.ps1` 报“Excel 私有依赖”失败
+
+按提示先打开 Codex Desktop，等本机运行时初始化完成后重新运行
+`install-client.ps1`，再重跑 `doctor.ps1`。不要下载来历不明的替代包，
+仓库也不会用其他组件替换这个私有包。
 
 ### SellerSprite 导出失败或页面反复刷新
 
