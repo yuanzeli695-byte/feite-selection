@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
   [switch]$Json,
   [switch]$NoServiceCheck
@@ -84,7 +84,7 @@ $NodeOk = $false
 if (-not $PythonPath) {
   Add-Check 'python' 'Python 解释器' 'fail' '未找到 python.exe / python' '安装 Python 3.11+ 并勾选 Add to PATH，然后重新运行 install-client.ps1。'
 } elseif (Test-StoreAlias $PythonPath) {
-  Add-Check 'python' 'Python 解释器' 'fail' "命中 Windows 商店占位别名: $PythonPath" '这不是真实解释器。安装 python.org 版本，或在“设置 > 应用执行别名”里关闭 python.exe/python3.exe 后重试。'
+  Add-Check 'python' 'Python 解释器' 'fail' "命中 Windows 商店占位别名: $PythonPath" '这不是真实解释器。安装 python.org 版本，或在「设置 > 应用执行别名」里关闭 python.exe/python3.exe 后重试。'
 } else {
   $PythonVersion = ''
   try { $PythonVersion = (& $PythonPath '-c' 'import sys; print("%d.%d" % sys.version_info[:2])' 2>$null).Trim() } catch { $PythonVersion = '' }
@@ -266,7 +266,7 @@ foreach ($Directory in @($RuntimeRoot, $DataDir, (Join-Path $PipelineRoot 'runs'
     Set-Content -LiteralPath $ProbeFile -Value 'ok' -Encoding ASCII
     Remove-Item -LiteralPath $ProbeFile -Force
   } catch {
-    $DirectoryProblems += "$Directory: $($_.Exception.Message)"
+    $DirectoryProblems += "${Directory}: $($_.Exception.Message)"
   }
 }
 if ($DirectoryProblems.Count -eq 0) {

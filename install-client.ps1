@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
   [switch]$SkipDependencyInstall
 )
@@ -59,7 +59,7 @@ $PythonPath = Resolve-PythonPath
 if (-not $PythonPath -or -not (Test-Path -LiteralPath $PythonPath)) {
   $StoreAlias = Find-Executable @('python.exe', 'python')
   if ($StoreAlias -and (Test-StoreAlias $StoreAlias)) {
-    throw "PATH 中的 python.exe 是 Windows 商店占位别名，不是真实解释器：$StoreAlias`n请在“设置 > 应用执行别名”中关闭 python.exe/python3.exe，或安装 python.org 版本后重新运行 install-client.ps1。"
+    throw "PATH 中的 python.exe 是 Windows 商店占位别名，不是真实解释器：$StoreAlias`n请在「设置 > 应用执行别名」中关闭 python.exe/python3.exe，或安装 python.org 版本后重新运行 install-client.ps1。"
   }
   throw '未找到 Python 3。请安装 Python 3.11 或更高版本后重新运行 install-client.ps1。'
 }

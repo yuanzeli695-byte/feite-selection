@@ -15,6 +15,7 @@
   - Node.js 18+：生成 Excel 工作簿；
   - PowerShell：安装、启动、停止、校验脚本。
 - 设计原则是 **fail-closed（失败即关闭）**：任何校验失败都应停下来报告，**不得**删除校验、修改脚本、跳过预检或换端口绕过。
+- 所有部署脚本都是 **UTF-8 with BOM**。Windows PowerShell 5.1 读取无 BOM 的 `.ps1` 时会使用系统 ANSI 代码页（简体中文系统是 936/GBK），中文会被错误解码并破坏字符串配对，导致整份脚本解析失败。**不要用编辑器把脚本另存为"无 BOM"**；如果校验报缺少 BOM，直接重新 checkout 对应文件。
 - Excel 生成依赖 Codex Desktop 自带的私有 npm 包 `@oai/artifact-tool`，它在：
   `%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules`
   仓库不包含这个包，也不允许下载"替代包"。
@@ -111,6 +112,9 @@ Set-ExecutionPolicy -Scope Process Bypass
 ```
 
 预期：每个脚本一行 `[ OK ]`，最后一行是 `语法检查通过：N 个脚本。`。
+
+该工具检查三类问题：PowerShell 解析错误；含中文但没有 UTF-8 BOM（PS 5.1 会按 ANSI 解码）；以及两个在**任何** PowerShell 版本都会失败的写法——双引号内的 `$变量:`（会被当成作用域/驱动器限定符）和使用弯引号 `“ ”` 作为普通字符（会被当成字符串定界符）。
+
 若出现 `[FAIL]`，把对应的行号与错误原文完整记下，然后**停止后续步骤**。
 
 ### 步骤 2：安装（会创建 venv 并安装 Python 依赖）
@@ -240,6 +244,8 @@ Pop-Location
 ## 5. 如果出问题
 
 - 控制台起不来：读取 `.runtime\console.stderr.log` 的最后 30 行，连同 `doctor.ps1` 的 `[FAIL]` 项一起附上。
+- 语法检查报"含非 ASCII 字符但没有 UTF-8 BOM"：说明文件被编辑器重新保存过，用 `git checkout -- <文件>` 恢复原样，不要手工改编码。
+- 语法检查报"双引号内的 `$变量:`"或"弯引号"：这是脚本自身的写法规避问题，记录后交给负责人，不要自行改写脚本。
 - 端口被占用：只记录，不杀进程。
 - venv 创建失败：记录完整警告；不要手工安装 `openpyxl`/`Pillow` 到系统 Python 来"绕过"，那会破坏隔离语义。
 - 任何情况下都**不要**为了实现"通过"而修改脚本、删除检查或改端口。
@@ -391,4 +397,5 @@ Pop-Location
 
 | 日期 | 版本 | 说明 |
 |---|---|---|
+| 2026-10-26 | 1.1 | 补充 UTF-8 BOM 前置条件；语法检查覆盖 BOM、`$变量:` 与弯引号三类问题 |
 | 2026-10-26 | 1.0 | 初版：首次部署验证流程、安全红线、回执模板；基线提交 `f874514` |
