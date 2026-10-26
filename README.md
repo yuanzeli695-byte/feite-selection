@@ -28,6 +28,11 @@ The approved local console pairing remains:
 - Collector `0.4.6.4`
 - Runner `0.3.8.13`
 
+These versions and the protected SHA-256 values are loaded at startup from
+`pipeline/config/protected_script_hashes.json`. The console refuses to start
+when that manifest is missing, malformed, or does not carry valid hashes for
+all three scripts; it never falls back to built-in defaults.
+
 The active Runner source is the `0.3.8.13` userscript under
 `pipeline/scripts/`. The `0.3.8.12` userscript is not the active version and
 must not be selected for normal operation.
@@ -139,7 +144,12 @@ Run the repository checks after installing the local dependencies:
 python -m pytest pipeline/tests
 corepack pnpm --dir console run test:ui
 .\verify-client.ps1 -NoServiceCheck
+.\tools\check-ps-syntax.ps1
 ```
+
+`tools/check-ps-syntax.ps1` parses every PowerShell script with the built-in
+PowerShell parser and exits non-zero on syntax errors. It needs no runtime
+components (no Codex, no Python dependencies) and is safe to run in CI.
 
 On a client machine, run `.\doctor.ps1` before these checks: it separates
 deployment capability failures (private workbook package, SQLite writes, port

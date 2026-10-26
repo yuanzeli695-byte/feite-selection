@@ -51,16 +51,46 @@ PREFLIGHT_SCRIPT = Path(
 
 ALLOWED_BROWSER_STATUSES = {"waiting", "running", "paused", "completed", "needs_attention"}
 TERMINAL_STATUSES = {"completed", "failed", "cancelled"}
-APPROVED_COLLECTOR_VERSION = "0.4.6.4"
-APPROVED_RUNNER_VERSION = "0.3.8.13"
-APPROVED_BROWSER_BRIDGE_VERSION = "2.1.3"
+APPROVED_SCRIPTS_MANIFEST = WORKSPACE_ROOT / "pipeline" / "config" / "protected_script_hashes.json"
+
+
+def _load_approved_scripts(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except OSError as exc:
+        raise RuntimeError(f"缺少批准脚本清单: {path}") from exc
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"批准脚本清单不是有效 JSON: {path}") from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"批准脚本清单结构无效: {path}")
+    pair = payload.get("approvedPair")
+    files = payload.get("files")
+    if not isinstance(pair, dict) or not isinstance(files, dict):
+        raise RuntimeError(f"批准脚本清单缺少 approvedPair/files: {path}")
+    versions: dict[str, str] = {}
+    hashes: dict[str, str] = {}
+    for name in ("bridge", "collector", "runner"):
+        version = str(pair.get(name) or "").strip()
+        entry = files.get(name)
+        digest = str(entry.get("sha256") or "").strip().upper() if isinstance(entry, dict) else ""
+        if not version:
+            raise RuntimeError(f"批准脚本清单缺少 approvedPair.{name}: {path}")
+        if len(digest) != 64 or any(ch not in "0123456789ABCDEF" for ch in digest):
+            raise RuntimeError(f"批准脚本清单缺少有效的 files.{name}.sha256: {path}")
+        versions[name] = version
+        hashes[name] = digest
+    return {"versions": versions, "hashes": hashes}
+
+
+_APPROVED_SCRIPTS = _load_approved_scripts(APPROVED_SCRIPTS_MANIFEST)
+APPROVED_COLLECTOR_VERSION = _APPROVED_SCRIPTS["versions"]["collector"]
+APPROVED_RUNNER_VERSION = _APPROVED_SCRIPTS["versions"]["runner"]
+APPROVED_BROWSER_BRIDGE_VERSION = _APPROVED_SCRIPTS["versions"]["bridge"]
 APPROVED_BROWSER_BRIDGE_SCRIPT_VERSION = "2.1.6"
 ACTIVE_COLLECTOR_SCRIPT = PROJECT_ROOT / "scripts" / "sellersprite_traffic_collector_v0.4.6.4_zh_no_data_fast_fail.user.js"
 ACTIVE_RUNNER_SCRIPT = PROJECT_ROOT / "scripts" / "sellersprite_integrated_runner_v0.3.8.13_zh_keepa_passive_30s.user.js"
 PROTECTED_SCRIPT_HASHES = {
-    "bridge": "0BEA21250B8342AA7249D035D6EDB3A1D1F49775C53DF343B110C1BBADE6CC82",
-    "collector": "9ED48DFAFC4E71CCB36A2982EC48D99BAA75372BC809DE19752DEF36D3A1D7D3",
-    "runner": "0350FC1CDCA11E36FF3318FA947DED835C1D2B9DDEBC0CC7D9EDA15D5EC87E0C",
+    name: _APPROVED_SCRIPTS["hashes"][name] for name in ("bridge", "collector", "runner")
 }
 BROWSER_PAIR_RELEASE_STATUS = "candidate_pending_live_smoke_and_paired30"
 DEFAULT_CANDIDATE_SOURCE_MODE = "browser_export"
