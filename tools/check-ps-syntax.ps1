@@ -51,6 +51,15 @@ foreach ($File in $Files) {
     if ($HasAsciiQuote -and $HasCurlyQuote) {
       $Issues += ('第 ' + $LineNumber + ' 行：同一行同时出现 ASCII 双引号与弯引号（U+201C/U+201D）；PowerShell 会把弯引号当作字符串定界符，请改用「」')
     }
+
+    $SingleQuoted = [regex]::Matches($Line, "'(?:[^']|'')*'")
+    $QuoteInsideString = $false
+    foreach ($Candidate in $SingleQuoted) {
+      if ($Candidate.Value.IndexOf([char]34) -ge 0) { $QuoteInsideString = $true; break }
+    }
+    if ($QuoteInsideString -and ($Line -match '&\s+\$' -or $Line -match '\$\w*(?:Probe|Snippet|Code|Script)\w*\s*=')) {
+      $Issues += ('第 ' + $LineNumber + ' 行：单引号字符串内含双引号，且该值会作为原生命令参数；PowerShell 5.1 不会转义参数内的双引号，Python/Node 会收到被截断的代码。请把内层双引号改成两个连续单引号，或直接避免双引号')
+    }
   }
 
   $ParseErrors = $null
@@ -76,7 +85,7 @@ foreach ($File in $Files) {
 $Ok = $Failures -eq 0
 if ($Json) {
   [ordered]@{
-    schemaVersion = 'feitePsSyntaxCheck/v2'
+    schemaVersion = 'feitePsSyntaxCheck/v3'
     ok = $Ok
     root = $Root
     checked = $Files.Count

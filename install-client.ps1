@@ -70,7 +70,7 @@ if (-not $NodePath) {
 }
 
 $PythonVersion = ''
-try { $PythonVersion = (& $PythonPath '-c' 'import sys; print("%d.%d" % sys.version_info[:2])' 2>$null).Trim() } catch { $PythonVersion = '' }
+try { $PythonVersion = (& $PythonPath '-c' 'import sys; print(sys.version_info.major, sys.version_info.minor, sep=chr(46))' 2>$null).Trim() } catch { $PythonVersion = '' }
 if (-not $PythonVersion) {
   throw "无法运行 Python: $PythonPath。请确认它是 python.org 安装的 3.11 或更高版本。"
 }
@@ -115,7 +115,7 @@ if (-not $SkipDependencyInstall -and -not (Test-Path -LiteralPath $VenvPython)) 
 }
 if (Test-Path -LiteralPath $VenvPython) {
   $VenvVersion = ''
-  try { $VenvVersion = (& $VenvPython '-c' 'import sys; print("%d.%d" % sys.version_info[:2])' 2>$null).Trim() } catch { $VenvVersion = '' }
+  try { $VenvVersion = (& $VenvPython '-c' 'import sys; print(sys.version_info.major, sys.version_info.minor, sep=chr(46))' 2>$null).Trim() } catch { $VenvVersion = '' }
   $VenvParts = $VenvVersion.Split('.')
   if (-not $VenvVersion -or [int]$VenvParts[0] -lt 3 -or (([int]$VenvParts[0] -eq 3) -and ([int]$VenvParts[1] -lt 11))) {
     throw "venv 解释器版本不满足要求: $VenvVersion ($VenvPython)。请删除 .runtime\venv 后改用 Python 3.11+ 重跑安装器。"

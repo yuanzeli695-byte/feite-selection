@@ -148,10 +148,12 @@ corepack pnpm --dir console run test:ui
 ```
 
 `tools/check-ps-syntax.ps1` parses every PowerShell script with the built-in
-parser and also flags three Windows PowerShell 5.1 hazards: a missing UTF-8
+parser and also flags four Windows PowerShell 5.1 hazards: a missing UTF-8
 BOM on files that contain non-ASCII text, `$name:` inside a double-quoted
-string, and curly quotes (U+201C/U+201D) used as ordinary characters. It needs
-no runtime components (no Codex, no Python dependencies) and is safe to run in
+string, curly quotes (U+201C/U+201D) used as ordinary characters, and a
+double quote inside a single-quoted string that is passed to a native
+command (PS 5.1 strips it, truncating embedded Python/Node code). It needs no
+runtime components (no Codex, no Python dependencies) and is safe to run in
 CI.
 
 `docs/windows-validation-manual-zh.md` is the end-to-end validation runbook for
