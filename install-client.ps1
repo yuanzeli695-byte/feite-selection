@@ -88,11 +88,68 @@ if ([int]$NodeVersion.Split('.')[0] -lt 18) {
   throw "需要 Node.js 18 或更高版本，当前为 v$NodeVersion。"
 }
 
-if (-not (Test-Path -LiteralPath (Join-Path $CodexNodeModules '@oai\artifact-tool\package.json'))) {
-  throw "未找到 Codex 自带的 @oai/artifact-tool：$CodexNodeModules。请先打开 Codex Desktop 完成本机运行时初始化，再重新运行 install-client.ps1；不要下载替代包。"
+$VendorRoot = Join-Path $Root 'vendor\artifact-tool'
+$VendorManifest = Join-Path $VendorRoot 'manifest.json'
+$RuntimeNodeModules = Join-Path $RuntimeRoot 'node_modules'
+$NodeModulesSource = $null
+
+if (Test-Path -LiteralPath $VendorManifest) {
+  $Vendor = Get-Content -Raw -LiteralPath $VendorManifest | ConvertFrom-Json
+  $VendorArchive = Join-Path $VendorRoot ([string]$Vendor.file)
+  if (-not (Test-Path -LiteralPath $VendorArchive)) {
+    throw "冻结清单存在但缺少私有包：$VendorArchive"
+  }
+  $VendorHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $VendorArchive).Hash.ToLowerInvariant()
+  if ($VendorHash -ne ([string]$Vendor.sha256).ToLowerInvariant()) {
+    throw "私有包 SHA-256 不匹配，已拒绝安装：$VendorArchive`n期望: $($Vendor.sha256)`n实际: $VendorHash"
+  }
+  $ArtifactToolTarget = Join-Path $RuntimeNodeModules '@oai\artifact-tool'
+  $ExtractNeeded = $true
+  if (Test-Path -LiteralPath (Join-Path $ArtifactToolTarget 'package.json')) {
+    try {
+      $Installed = Get-Content -Raw -LiteralPath (Join-Path $ArtifactToolTarget 'package.json') | ConvertFrom-Json
+      if ([string]$Installed.version -eq [string]$Vendor.version) { $ExtractNeeded = $false }
+    } catch { $ExtractNeeded = $true }
+  }
+  if ($ExtractNeeded) {
+    Write-Host "正在解压冻结的 @oai/artifact-tool $($Vendor.version) ..."
+    $ExtractRoot = Join-Path $RuntimeRoot ('artifact-tool-extract-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $ExtractRoot -Force | Out-Null
+    try {
+      & tar.exe -xzf $VendorArchive -C $ExtractRoot 2>&1 | Out-Null
+      if ($LASTEXITCODE -ne 0) { throw "解压私有包失败: $VendorArchive" }
+      $Extracted = Join-Path $ExtractRoot 'package'
+      if (-not (Test-Path -LiteralPath (Join-Path $Extracted 'package.json'))) {
+        throw "私有包结构异常：缺少 package/package.json"
+      }
+      if (Test-Path -LiteralPath $ArtifactToolTarget) { Remove-Item -LiteralPath $ArtifactToolTarget -Recurse -Force }
+      New-Item -ItemType Directory -Path (Split-Path $ArtifactToolTarget) -Force | Out-Null
+      Move-Item -LiteralPath $Extracted -Destination $ArtifactToolTarget
+    } finally {
+      Remove-Item -LiteralPath $ExtractRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
+  }
+  $NodeModulesSource = $RuntimeNodeModules
+  Write-Host "Excel 组件来源: 冻结私有包 @oai/artifact-tool $($Vendor.version)"
+} else {
+  if (-not (Test-Path -LiteralPath (Join-Path $CodexNodeModules '@oai\artifact-tool\package.json'))) {
+    throw "既没有冻结私有包（$VendorManifest），也没找到 Codex 自带的 @oai/artifact-tool：$CodexNodeModules。请先打开 Codex Desktop 完成本机运行时初始化，再重新运行 install-client.ps1；不要下载替代包。"
+  }
+  $NodeModulesSource = $CodexNodeModules
+  Write-Host "Excel 组件来源: Codex 运行时"
 }
-if (-not (Test-Path -LiteralPath $PipelineNodeModules)) {
-  New-Item -ItemType Junction -Path $PipelineNodeModules -Target $CodexNodeModules | Out-Null
+
+$ExistingModules = Get-Item -LiteralPath $PipelineNodeModules -ErrorAction SilentlyContinue
+if ($ExistingModules) {
+  if ($ExistingModules.LinkType -eq 'Junction') {
+    $ExistingTarget = @($ExistingModules.Target)[0]
+    if ($ExistingTarget -and $ExistingTarget -ne $NodeModulesSource) {
+      [System.IO.Directory]::Delete($PipelineNodeModules)
+      New-Item -ItemType Junction -Path $PipelineNodeModules -Target $NodeModulesSource | Out-Null
+    }
+  }
+} else {
+  New-Item -ItemType Junction -Path $PipelineNodeModules -Target $NodeModulesSource | Out-Null
 }
 if (-not (Test-Path -LiteralPath (Join-Path $PipelineNodeModules '@oai\artifact-tool\package.json'))) {
   throw "pipeline\node_modules 已存在但不包含 @oai/artifact-tool；未覆盖该目录，请人工确认后重试。"
@@ -147,7 +204,7 @@ $Toolchain = [ordered]@{
   basePython = $PythonPath
   pythonIsolation = $Isolation
   node = $NodePath
-  artifactToolNodeModules = $CodexNodeModules
+  artifactToolNodeModules = $NodeModulesSource
   installedAt = [DateTime]::UtcNow.ToString('o')
 }
 if ($Isolation -eq 'venv') { $Toolchain['venvRoot'] = $VenvRoot }
@@ -160,5 +217,5 @@ if ($Isolation -eq 'venv') {
   Write-Host '依赖隔离: 未启用（依赖安装在基础解释器中）'
 }
 Write-Host "Node.js: $NodePath"
-Write-Host "Excel 组件: $CodexNodeModules"
+Write-Host "Excel 组件: $NodeModulesSource"
 Write-Host '下一步运行 .\start-client.ps1，然后打开 http://127.0.0.1:8788。'
