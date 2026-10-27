@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 import subprocess
@@ -1268,8 +1269,14 @@ print(json.dumps(audit.append(payload)))
         for entry in baseline["files"]:
             path = ROOT / Path(entry["path"])
             self.assertTrue(path.is_file(), entry["path"])
-            self.assertEqual(BRIDGE.file_sha256(path), entry["sha256"], entry["path"])
-            self.assertEqual(path.stat().st_size, entry["bytes"], entry["path"])
+            # The baseline was captured from LF content. Git may check files out
+            # with CRLF (core.autocrlf), which is a checkout artifact, not a
+            # content change, so normalise line endings before comparing.
+            normalized = path.read_bytes().replace(b"\r\n", b"\n")
+            self.assertEqual(
+                hashlib.sha256(normalized).hexdigest(), entry["sha256"], entry["path"]
+            )
+            self.assertEqual(len(normalized), entry["bytes"], entry["path"])
 
 
 if __name__ == "__main__":
