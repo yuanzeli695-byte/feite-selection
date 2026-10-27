@@ -23,10 +23,10 @@
 
 ## 2. 代码版本要求（先确认，再执行）
 
-代码已推送到私有仓库 `origin/main`。当前基线提交是（包含 PowerShell 语法修复与 UTF-8 BOM）：
+代码已推送到私有仓库 `origin/main`。当前基线提交是（包含 PowerShell 语法、编码与原生命令参数三类修复）：
 
 ```
-218a7df fix: correct two PowerShell parse errors and add UTF-8 BOM
+5e91831 fix: keep inline Python snippets free of double quotes
 ```
 
 更早的历史（doctor、venv、历史迁移等）都在 `main` 上，克隆即可获得，不必逐个核对。
@@ -49,7 +49,7 @@ git pull --ff-only
 
 **执行前必须确认**：
 
-1. `git merge-base --is-ancestor 218a7df HEAD` 的退出码为 0，表示已包含 `218a7df` 这个修复提交。首次验证请直接使用包含它的最新 `main`，并在回执中写明实际的 `git log --oneline -1`；
+1. `git merge-base --is-ancestor 5e91831 HEAD` 的退出码为 0，表示已包含 `5e91831` 这个修复提交。首次验证请直接使用包含它的最新 `main`，并在回执中写明实际的 `git log --oneline -1`；
 2. `git status --short` 中没有已修改（`M`）的已跟踪文件。
 
 - 任一条不满足：**停止并在回执中说明**，不要自行 merge / rebase / reset / push，也不要手工拼凑文件。
@@ -395,6 +395,7 @@ Pop-Location
 
 | 日期 | 版本 | 说明 |
 |---|---|---|
+| 2026-10-26 | 1.4 | 基线前移到 `5e91831`（补上原生命令参数修复） |
 | 2026-10-26 | 1.3 | 内联 Python 片段去除全部双引号，规避 PS 5.1 原生参数转义缺陷；检查器增加对应规则 |
 | 2026-10-26 | 1.2 | 基线前移到 `218a7df`（语法与编码修复）；版本校验改为 `merge-base --is-ancestor` |
 | 2026-10-26 | 1.1 | 补充 UTF-8 BOM 前置条件；语法检查覆盖 BOM、`$变量:` 与弯引号三类问题 |
