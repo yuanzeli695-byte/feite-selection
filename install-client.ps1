@@ -16,6 +16,7 @@ $CodexPython = Join-Path $CodexDependencies 'python\python.exe'
 $CodexNode = Join-Path $CodexDependencies 'node\bin\node.exe'
 $CodexNodeModules = Join-Path $CodexDependencies 'node\node_modules'
 $PipelineNodeModules = Join-Path $PipelineRoot 'node_modules'
+$ProbesDir = Join-Path $Root 'tools\probes'
 
 function Find-Executable([string[]]$Names) {
   foreach ($Name in $Names) {
@@ -35,7 +36,7 @@ function Resolve-PythonPath {
   if ($Candidate -and -not (Test-StoreAlias $Candidate)) { return $Candidate }
   $PyLauncher = Find-Executable @('py.exe', 'py')
   if ($PyLauncher) {
-    $Launched = & $PyLauncher '-3' '-c' 'import sys; print(sys.executable)' 2>$null
+    $Launched = & $PyLauncher '-3' (Join-Path $ProbesDir 'python_exe.py') 2>$null
     if ($LASTEXITCODE -eq 0 -and $Launched) { return ([string]($Launched | Select-Object -First 1)).Trim() }
   }
   return $null
@@ -70,7 +71,7 @@ if (-not $NodePath) {
 }
 
 $PythonVersion = ''
-try { $PythonVersion = (& $PythonPath '-c' 'import sys; print(sys.version_info.major, sys.version_info.minor, sep=chr(46))' 2>$null).Trim() } catch { $PythonVersion = '' }
+try { $PythonVersion = (& $PythonPath (Join-Path $ProbesDir 'python_version.py') 2>$null).Trim() } catch { $PythonVersion = '' }
 if (-not $PythonVersion) {
   throw "无法运行 Python: $PythonPath。请确认它是 python.org 安装的 3.11 或更高版本。"
 }
@@ -115,7 +116,7 @@ if (-not $SkipDependencyInstall -and -not (Test-Path -LiteralPath $VenvPython)) 
 }
 if (Test-Path -LiteralPath $VenvPython) {
   $VenvVersion = ''
-  try { $VenvVersion = (& $VenvPython '-c' 'import sys; print(sys.version_info.major, sys.version_info.minor, sep=chr(46))' 2>$null).Trim() } catch { $VenvVersion = '' }
+  try { $VenvVersion = (& $VenvPython (Join-Path $ProbesDir 'python_version.py') 2>$null).Trim() } catch { $VenvVersion = '' }
   $VenvParts = $VenvVersion.Split('.')
   if (-not $VenvVersion -or [int]$VenvParts[0] -lt 3 -or (([int]$VenvParts[0] -eq 3) -and ([int]$VenvParts[1] -lt 11))) {
     throw "venv 解释器版本不满足要求: $VenvVersion ($VenvPython)。请删除 .runtime\venv 后改用 Python 3.11+ 重跑安装器。"
@@ -128,7 +129,7 @@ if (Test-Path -LiteralPath $VenvPython) {
 
 if (-not $SkipDependencyInstall) {
   $DependencyOk = $true
-  try { $DependencyCheck = & $PythonRuntime '-c' 'import openpyxl, PIL' 2>&1 } catch { $DependencyOk = $false }
+  try { $DependencyCheck = & $PythonRuntime (Join-Path $ProbesDir 'python_deps.py') 2>&1 } catch { $DependencyOk = $false }
   if (-not $DependencyOk -or $LASTEXITCODE -ne 0) {
     if (-not (Test-Path -LiteralPath $RequirementsPath)) { throw "缺少依赖清单: $RequirementsPath" }
     Write-Host "正在安装 Python 运行依赖（openpyxl、Pillow）到 $PythonRuntime ..."

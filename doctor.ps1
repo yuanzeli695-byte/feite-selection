@@ -16,6 +16,7 @@ $PreflightPath = Join-Path $PipelineRoot 'scripts\preflight.py'
 $WorkbookScript = Join-Path $PipelineRoot 'scripts\build_replay_workbooks.mjs'
 $DirectImportScript = Join-Path $Root 'direct_import_batch_to_replay.mjs'
 $HashManifestPath = Join-Path $PipelineRoot 'config\protected_script_hashes.json'
+$ProbesDir = Join-Path $Root 'tools\probes'
 $DataDir = Join-Path $ConsoleRoot 'data'
 $Port = 8788
 
@@ -87,7 +88,7 @@ if (-not $PythonPath) {
   Add-Check 'python' 'Python 解释器' 'fail' "命中 Windows 商店占位别名: $PythonPath" '这不是真实解释器。安装 python.org 版本，或在「设置 > 应用执行别名」里关闭 python.exe/python3.exe 后重试。'
 } else {
   $PythonVersion = ''
-  try { $PythonVersion = (& $PythonPath '-c' 'import sys; print(sys.version_info.major, sys.version_info.minor, sep=chr(46))' 2>$null).Trim() } catch { $PythonVersion = '' }
+  try { $PythonVersion = (& $PythonPath (Join-Path $ProbesDir 'python_version.py') 2>$null).Trim() } catch { $PythonVersion = '' }
   $PythonExit = $LASTEXITCODE
   if ($PythonExit -ne 0 -or -not $PythonVersion) {
     Add-Check 'python' 'Python 解释器' 'fail' "无法执行: $PythonPath" '该路径不能正常运行 Python，请改用 python.org 安装的 3.11+ 解释器。'
@@ -133,7 +134,7 @@ if ($PythonInfo.stale -or $NodeInfo.stale) {
 if (-not $PythonOk) {
   Add-Check 'pythonDeps' 'Python 运行依赖' 'skip' '跳过：Python 不可用'
 } else {
-  $DepsOutput = & $PythonPath '-c' 'import openpyxl, PIL; print(openpyxl.__version__, PIL.__version__, sep=chr(47))' 2>&1
+  $DepsOutput = & $PythonPath (Join-Path $ProbesDir 'python_deps.py') '--versions' 2>&1
   if ($LASTEXITCODE -ne 0) {
     Add-Check 'pythonDeps' 'Python 运行依赖' 'fail' (($DepsOutput | Out-String).Trim()) "运行 & `"$PythonPath`" -m pip install -r `"$PipelineRoot\requirements.txt`" 后重试。"
   } else {
@@ -215,10 +216,10 @@ if (-not $PythonOk -or -not (Test-Path -LiteralPath $PreflightPath) -or -not (Te
     }
   } catch { $ApprovalVersions = $null }
 
-  $PreflightProbe = 'import importlib.util, json, sys; spec = importlib.util.spec_from_file_location(sys.argv[1], sys.argv[2]); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); print(json.dumps({k: v[1] for k, v in mod.APPROVED_SCRIPTS.items()}))'
+  $PreflightProbe = Join-Path $ProbesDir 'preflight_approved.py'
   $PreflightVersions = $null
   try {
-    $ProbeOutput = & $PythonPath '-c' $PreflightProbe 'preflight_probe' $PreflightPath 2>$null
+    $ProbeOutput = & $PythonPath $PreflightProbe 'preflight_probe' $PreflightPath 2>$null
     if ($LASTEXITCODE -eq 0 -and $ProbeOutput) { $PreflightVersions = ($ProbeOutput -join "`n") | ConvertFrom-Json }
   } catch { $PreflightVersions = $null }
 
@@ -280,8 +281,7 @@ if (-not $PythonOk) {
 } else {
   New-Item -ItemType Directory -Path $DataDir -Force | Out-Null
   $DbProbe = Join-Path $DataDir ('.doctor-' + [guid]::NewGuid().ToString('N') + '.db')
-  $SqliteProbe = 'import sqlite3, sys; connection = sqlite3.connect(sys.argv[1]); connection.execute(sys.argv[2]); connection.commit(); connection.close()'
-  $SqliteOutput = & $PythonPath '-c' $SqliteProbe $DbProbe 'create table if not exists probe(x integer)' 2>&1
+  $SqliteOutput = & $PythonPath (Join-Path $ProbesDir 'sqlite_probe.py') $DbProbe 'create table if not exists probe(x integer)' 2>&1
   $SqliteCode = $LASTEXITCODE
   Remove-Item -LiteralPath $DbProbe -Force -ErrorAction SilentlyContinue
   if ($SqliteCode -eq 0) {
