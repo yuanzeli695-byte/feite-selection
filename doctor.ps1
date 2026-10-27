@@ -237,7 +237,7 @@ if (-not $PythonOk -or -not (Test-Path -LiteralPath $PreflightPath) -or -not (Te
     if ($Drift.Count -eq 0) {
       Add-Check 'approval' '批准脚本一致性' 'ok' "严格预检与批准清单一致 (collector $($ApprovalVersions['collector']) / runner $($ApprovalVersions['runner']))"
     } else {
-      Add-Check 'approval' '批准脚本一致性' 'warn' ("严格预检版本落后: " + ($Drift -join '; ')) '已知待整改项（P0-2 第二步）：确认正式项目实际安装的脚本版本后，把 pipeline\scripts\preflight.py 的 APPROVED_SCRIPTS 对齐到批准清单。'
+      Add-Check 'approval' '批准脚本一致性' 'warn' ("严格预检版本落后: " + ($Drift -join '; ')) '确认正式项目实际安装的脚本版本后，同步更新 pipeline\scripts\preflight.py 的 APPROVED_SCRIPTS 与 pipeline\PIPELINE_RUNBOOK.md，再重跑本脚本。'
     }
   }
 }
