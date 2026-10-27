@@ -35,8 +35,8 @@ APPROVED_RULES: dict[str, Any] = {
 }
 
 APPROVED_SCRIPTS = {
-    "collector": ("scripts/sellersprite_traffic_collector_v0.4.6.user.js", "0.4.6"),
-    "runner": ("scripts/sellersprite_integrated_runner_v0.3.7.user.js", "0.3.7"),
+    "collector": ("scripts/sellersprite_traffic_collector_v0.4.6.4_zh_no_data_fast_fail.user.js", "0.4.6.4"),
+    "runner": ("scripts/sellersprite_integrated_runner_v0.3.8.13_zh_keepa_passive_30s.user.js", "0.3.8.13"),
     "collectorRollback": ("scripts/sellersprite_traffic_collector_v0.4.5.user.js", "0.4.5"),
     "runnerRollback": ("scripts/sellersprite_integrated_runner_v0.3.6.user.js", "0.3.6"),
 }
@@ -238,10 +238,10 @@ def main() -> int:
         }
         errors.extend(f"run bundle missing: {name}" for name in missing_run_files)
 
-    if not (root / "tests" / "test_sellersprite_traffic_collector_v046.mjs").is_file():
-        warnings.append("Collector 0.4.6 regression test was not found")
-    if not (root / "tests" / "test_sellersprite_integrated_runner_v037.mjs").is_file():
-        warnings.append("Runner 0.3.7 regression test was not found")
+    if not (root / "tests" / "test_sellersprite_confirmed_no_data_fast_fail.mjs").is_file():
+        warnings.append("Collector 0.4.6.4 regression test was not found")
+    if not (root / "tests" / "test_sellersprite_keepa_passive_wait_v03813.mjs").is_file():
+        warnings.append("Runner 0.3.8.13 regression test was not found")
 
     report = {
         "schemaVersion": "amazonStrictSelectionPreflight/v1",

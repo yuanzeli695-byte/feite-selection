@@ -55,7 +55,7 @@ Claude 框架已落地到本目录:
 - `scripts/sellersprite_traffic_collector_v0.4.6.user.js`: ScriptCat 流量采集脚本，只读取最近4周；正总流量且字面自然流量为0时保守推导0%，已读周自然流量低于70%即提前返回失败，并可导出 Tier 0 门槛/耗时日志。0.4.5 保留为 Tier 2 回退基线。
 - `scripts/replay_existing_batch.py`: 用已有 SellerSprite batch JSON 回放硬过滤,产出 `state.jsonl`、`qualified_pool.json`、`rejected.jsonl`。
 - `scripts/sellersprite_integrated_runner_v0.3.7.user.js`: ScriptCat 短路批处理脚本；只对图表/tooltip 明确未就绪状态重试一次，真低流量和普通残缺样本不重试。历史跳过只记为 `skip`，不计入合格数；可导出 Tier 0 门槛/耗时日志。0.3.6 保留为 Tier 2 回退基线。
-- `scripts/sellersprite_traffic_collector_v0.4.6_zh_p1.user.js` + `scripts/sellersprite_integrated_runner_v0.3.8.2_zh_excel.user.js`: 加法式中文/Excel 候选 `0.4.6.2/0.3.8.2`。它继承已 smoke 的 P1 剩余目标、行内停止和细粒度遥测，并增加存储配额失败闭环和卖家精灵登录/套餐权限熔断；仍需安装后的单 ASIN 与真实 Excel smoke，不能替代 canonical `0.4.6/0.3.7` 预检登记。
+- `scripts/sellersprite_traffic_collector_v0.4.6_zh_p1.user.js` + `scripts/sellersprite_integrated_runner_v0.3.8.2_zh_excel.user.js`: 加法式中文/Excel 候选 `0.4.6.2/0.3.8.2`。它继承已 smoke 的 P1 剩余目标、行内停止和细粒度遥测，并增加存储配额失败闭环和卖家精灵登录/套餐权限熔断；仍需安装后的单 ASIN 与真实 Excel smoke，不能替代 canonical `0.4.6.4/0.3.8.13` 预检登记。
 - `scripts/sellersprite_integrated_runner_v0.3.8.3_zh_excel_p2_candidate.user.js`: 仅用于验证流量标签暂态恢复的 Class B 候选。它增加 2 秒严格文本就绪宽限和最多一次原行重载，但在 30-ASIN 配对、至少 3 个真实恢复和 live smoke 通过前不得替换 `0.3.8.2`，Excel 桥接版本契约也保持不变。
 - `scripts/build_replay_workbooks.mjs`: 从合格池和剔除审计数据生成两张表。
 - `scripts/acceptance_checker.py`: 验证 final 表里没有不合格品,且图片已嵌入。
