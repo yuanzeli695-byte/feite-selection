@@ -127,8 +127,9 @@ if (Test-Path -LiteralPath $VenvPython) {
 }
 
 if (-not $SkipDependencyInstall) {
-  $DependencyCheck = & $PythonRuntime '-c' 'import openpyxl, PIL' 2>&1
-  if ($LASTEXITCODE -ne 0) {
+  $DependencyOk = $true
+  try { $DependencyCheck = & $PythonRuntime '-c' 'import openpyxl, PIL' 2>&1 } catch { $DependencyOk = $false }
+  if (-not $DependencyOk -or $LASTEXITCODE -ne 0) {
     if (-not (Test-Path -LiteralPath $RequirementsPath)) { throw "缺少依赖清单: $RequirementsPath" }
     Write-Host "正在安装 Python 运行依赖（openpyxl、Pillow）到 $PythonRuntime ..."
     & $PythonRuntime '-m' 'pip' 'install' '--disable-pip-version-check' '-r' $RequirementsPath
