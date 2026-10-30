@@ -25,16 +25,24 @@
 | `5e91831` | 内联 Python 去除全部双引号；检查器 v3 |
 | `96f1af8` | 手册新增步骤 3.5：同机独占 8788 流程 |
 | `882210f` | 项目移交报告 |
+| `28ae1bb` | 安装器的依赖探测在 `$ErrorActionPreference='Stop'` 下不再中断 |
+| `55a95bf` | 测试在 Windows `autocrlf` 检出下可通过 |
+| `6212e55` | 新增 Windows CI（语法检查 + pytest） |
+| `c28566f` | 内联 Python 探针抽到 `tools/probes/*.py` |
+| `3b8cf82` | `@oai/artifact-tool 2.8.106` 冻结为带 SHA-256 的私有 tgz（`vendor/artifact-tool/`，34 MB） |
+| `4b1246a` | 严格预检对齐到 collector `0.4.6.4` / runner `0.3.8.13` |
+| `51f72cc` | 同步 doctor 与手册中关于「批准脚本一致性」的措辞 |
 
 ## 3. 当前状态（2026-10-30）
 
-- 仓库 `main` = `882210f`，与远端同步，工作区干净，无 stash、无本地分支。
+- 仓库 `main` 已包含 Windows 侧后续推送的 7 个提交（CI、probes 重构、私有包冻结、预检对齐），移交文档已在 `51926fa` 之后同步。
 - **Windows 验证进度**：
   - 步骤 1（语法自检）：曾通过（14 个脚本全部 `[ OK ]`），修复后**待复验**；
-  - 步骤 2（安装）：先后被两类缺陷阻断（编码、双引号），均已修复，**尚未复验**；
+  - 步骤 2（安装）：先后被三类缺陷阻断（编码、双引号、Stop 偏好下的探测中断），均已修复，**尚未复验**；
   - 步骤 3–8：未执行；
   - 8788 被生产控制台占用（PID 12428），该机处于实际业务使用中。
-- 受保护脚本三份哈希与清单一致。
+- 受保护脚本三份哈希与清单一致；严格预检现已与清单版本对齐。
+- `@oai/artifact-tool` 已冻结在 `vendor/artifact-tool/oai-artifact-tool-2.8.106.tgz`（34 MB，SHA-256 校验后解压到 `.runtime\node_modules`）；Codex 运行时不再是硬依赖，仅作为 Python/Node 的优先来源。
 
 ## 4. 环境事实（Windows 验证机）
 
@@ -62,12 +70,15 @@
 - 不 force push、不改写历史。
 - 停产前运行 `doctor` 时端口项必然 `[FAIL]`，属预期。
 
-## 7. 四项待决策
+## 7. 待决策与已完成事项
+
+**已由 Windows 侧完成（2026-10-30 之后）**：Windows CI、probes 重构、私有包冻结、预检对齐。
+
+**仍需决策**：
 
 1. 是否停生产实例、窗口时段（建议先做 2 分钟"停产—恢复"彩排）。
-2. P0-2：把 `preflight.py` 的批准版本 0.4.6/0.3.7 对齐到清单的 0.4.6.4/0.3.8.13（需先确认正式项目实际安装版本）。
-3. P0-1：是否把 `@oai/artifact-tool` 冻结为带 SHA-256 的私有 tgz（取决于隔离导入探测结果）。
-4. 是否启用 Windows CI（`windows-latest` 跑语法检查 + `pytest pipeline/tests`）。
+2. 冻结的私有包（34 MB）是否长期留在仓库中，还是改为私有制品库分发。
+3. 预检对齐是否已有单 ASIN live smoke 与 paired-30 证据支撑（`4b1246a` 改变了验收口径）。
 
 > **版本语义**：`approvedPair.bridge = 2.1.3` 是桥**协议**版本；用户脚本 `@version 2.1.6` 是**脚本**版本。两者分别校验，**不要把清单改成 2.1.6**。
 
@@ -80,10 +91,10 @@
 
 ## 9. 建议的下一步（按优先级）
 
-1. **窗口前**：pull 最新 → `check-ps-syntax`（14 个 OK）→ `install-client`（venv）→ `doctor` 基线 → 步骤 7 artifact 探测 → 步骤 8 历史 DryRun。
+1. **窗口前**：pull 最新 → `check-ps-syntax`（14 个 OK）→ `install-client`（venv + 冻结包解压）→ `doctor` 基线 → 步骤 7 artifact 探测 → 步骤 8 历史 DryRun。
 2. **2 分钟彩排**：停生产 → 确认 8788 空闲 → 立即恢复 → 验证 `/api/overview`。
 3. **维护窗口**：备份生产 DB → 停生产 → doctor（端口应 OK）→ start → verify → stop → 恢复生产 → 验证。
-4. **长期**：CI、probes 重构（把内联 Python 抽成 `tools/probes/*.py`）、P0-1、P0-2。
+4. **长期**：私有包分发方式（仓库内 34 MB tgz 是否长期保留）、预检对齐的证据补齐、把 Windows 侧回执归档进 `docs/receipts/`。
 
 ## 10. 相关文件
 

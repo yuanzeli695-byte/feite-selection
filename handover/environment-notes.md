@@ -14,7 +14,9 @@
 | Git for Windows | 任意近期版本 | 用于 pull/push |
 | Python | 3.11+ | 安装器优先使用 Codex 自带版本 |
 | Node.js | 18+ | 同上 |
-| Codex Desktop | 已初始化本机运行时 | 提供私有包 `@oai/artifact-tool` |
+| Codex Desktop | 可选 | `@oai/artifact-tool` 已冻结在 `vendor/artifact-tool/`，不再依赖 Codex 安装路径；Codex 仅作为 Python/Node 的优先来源 |
+
+> 安装器优先使用 Codex 自带的 Python/Node，找不到时才用 PATH 版本。冻结包在解压前会校验 SHA-256（见 `vendor/artifact-tool/manifest.json`）。
 
 ## 提交身份（与仓库历史一致）
 
