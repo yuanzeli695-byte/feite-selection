@@ -82,6 +82,10 @@ class PortableDeploymentTests(unittest.TestCase):
                 "AMAZON_CONSOLE_PREFLIGHT_SCRIPT": str(ROOT / "pipeline" / "scripts" / "preflight.py"),
                 "AMAZON_CONSOLE_PYTHON_EXE": sys.executable,
                 "AMAZON_CONSOLE_NODE_EXE": "node",
+                # Force both sides of the pipe to UTF-8: a checkout under a
+                # non-ASCII path otherwise round-trips through the active
+                # ANSI code page and the assertion compares mojibake.
+                "PYTHONIOENCODING": "utf-8",
             }
         )
         result = subprocess.run(
@@ -90,6 +94,8 @@ class PortableDeploymentTests(unittest.TestCase):
             env=env,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)

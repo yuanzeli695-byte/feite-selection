@@ -531,7 +531,14 @@ test("Bridge and server engine contracts remain pinned", () => {
   assert.match(source, /2\.1\.6/);
   assert.match(bridge, /const COLLECTOR_VERSION = "0\.4\.6\.4"/);
   assert.match(bridge, /const RUNNER_VERSION = "0\.3\.8\.13"/);
-  assert.match(server, /APPROVED_COLLECTOR_VERSION = "0\.4\.6\.4"/);
-  assert.match(server, /APPROVED_RUNNER_VERSION = "0\.3\.8\.13"/);
+  // Since 7f1a4b4 the server derives the approved versions from the protected
+  // manifest instead of hard-coding them, so pin the derivation plus the values
+  // that manifest actually carries.
+  assert.match(server, /APPROVED_COLLECTOR_VERSION = _APPROVED_SCRIPTS\["versions"\]\["collector"\]/);
+  assert.match(server, /APPROVED_RUNNER_VERSION = _APPROVED_SCRIPTS\["versions"\]\["runner"\]/);
+  const protectedHashes = JSON.parse(read("../pipeline/config/protected_script_hashes.json"));
+  assert.equal(protectedHashes.approvedPair.collector, "0.4.6.4");
+  assert.equal(protectedHashes.approvedPair.runner, "0.3.8.13");
+  assert.equal(protectedHashes.approvedPair.bridge, "2.1.3");
   assert.match(server, /BROWSER_PAIR_RELEASE_STATUS = "candidate_pending_live_smoke_and_paired30"/);
 });
